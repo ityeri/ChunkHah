@@ -1,10 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 .gradle/*
 .idea/*
 .kotlin/*
 build/*
 gradle/*
 =======
+=======
+>>>>>>> 43c542f050db5188f3b5b0f6cb9ca8a395cbf119
 # Compiled class file
 *.class
 
@@ -31,5 +34,9 @@ hs_err_pid*
 replay_pid*
 
 # Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
+<<<<<<< HEAD
+.kotlin/
+>>>>>>> 43c542f050db5188f3b5b0f6cb9ca8a395cbf119
+=======
 .kotlin/
 >>>>>>> 43c542f050db5188f3b5b0f6cb9ca8a395cbf119
