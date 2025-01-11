@@ -1,11 +1,11 @@
-package me.it.chunkHah.commands
+package com.github.ityeri.chunkHah.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.PaperCommandManager
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
-import me.it.chunkHah.ChunkHandler
+import com.github.ityeri.chunkHah.ChunkHandler
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 

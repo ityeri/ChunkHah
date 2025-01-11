@@ -1,10 +1,10 @@
-package me.it.chunkHah.commands
+package com.github.ityeri.chunkHah.commands
 
 import co.aikar.commands.BaseCommand
 import org.bukkit.plugin.java.JavaPlugin
 import co.aikar.commands.PaperCommandManager
 import co.aikar.commands.annotation.*
-import me.it.chunkHah.ChunkHandler
+import com.github.ityeri.chunkHah.ChunkHandler
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 

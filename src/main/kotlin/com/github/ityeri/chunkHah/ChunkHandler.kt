@@ -1,5 +1,5 @@
 
-package me.it.chunkHah
+package com.github.ityeri.chunkHah
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

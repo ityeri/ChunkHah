@@ -1,9 +1,11 @@
-package me.it.chunkHah
+package com.github.ityeri.chunkHah
 
+import com.github.ityeri.chunkHah.commands.BindCommand
+import com.github.ityeri.chunkHah.commands.PlayerChunkInfo
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
-import me.it.chunkHah.commands.*
+import com.github.ityeri.chunkHah.commands.*
 import net.kyori.adventure.text.Component
 
 // TODO 명려어 만들기 이것저것

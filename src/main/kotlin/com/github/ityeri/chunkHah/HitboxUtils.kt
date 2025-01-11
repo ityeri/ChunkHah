@@ -1,4 +1,4 @@
-package me.it.chunkHah
+package com.github.ityeri.chunkHah
 import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 

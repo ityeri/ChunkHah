@@ -9,7 +9,7 @@ tasks {
     }
 }
 
-group = "me.it"
+group = "com.github.ityeri"
 version = "1.0-SNAPSHOT"
 
 repositories {

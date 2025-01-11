@@ -1,8 +1,8 @@
-package me.it.chunkHah.commands
+package com.github.ityeri.chunkHah.commands
 
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Default
-import me.it.chunkHah.ChunkHandler
+import com.github.ityeri.chunkHah.ChunkHandler
 import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException

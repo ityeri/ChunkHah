@@ -1,7 +1,7 @@
 // 플레이어 하나와 청크 하나를 관리하는 객체
 // ChunkHandler 의 하위 객체임
 
-package me.it.chunkHah
+package com.github.ityeri.chunkHah
 
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
