@@ -1,8 +1,3 @@
-.gradle/*
-.idea/*
-.kotlin/*
-build/*
-gradle/*
 # Compiled class file
 *.class
 
