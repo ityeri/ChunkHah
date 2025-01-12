@@ -1,0 +1,8 @@
+name: ChunkHah
+version: '1.0-SNAPSHOT'
+main: com.github.ityeri.chunkHah.ChunkHah
+api-version: '1.21'
+
+permissions:
+  op:
+    default: op
