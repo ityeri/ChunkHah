@@ -1,16 +1,25 @@
 package com.github.ityeri.chunkHah.commands
 
+import co.aikar.commands.BaseCommand
+import co.aikar.commands.PaperCommandManager
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Default
 import com.github.ityeri.chunkHah.ChunkHandler
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
 
 class AriaDataCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler) {
 
+    fun onEnable() {
+        val commandManager = PaperCommandManager(plugin)
+        commandManager.registerCommand(SaveAria(chunkHandler))
+        commandManager.registerCommand(LoadAria(chunkHandler))
+    }
+
     @CommandAlias("savearia")
-    class SaveAria(val chunkHandler: ChunkHandler) {
+    class SaveAria(val chunkHandler: ChunkHandler) : BaseCommand() {
         @Default
         fun onCommand(sender: CommandSender) {
             chunkHandler.saveAriaData()
@@ -18,7 +27,7 @@ class AriaDataCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler) {
     }
 
     @CommandAlias("loadaria")
-    class LoadAria(val chunkHandler: ChunkHandler) {
+    class LoadAria(val chunkHandler: ChunkHandler) : BaseCommand() {
         @Default
         fun onCommand(sender: CommandSender) {
             try {

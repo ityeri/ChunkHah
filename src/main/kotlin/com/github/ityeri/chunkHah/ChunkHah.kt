@@ -1,5 +1,6 @@
 package com.github.ityeri.chunkHah
 
+import com.github.ityeri.chunkHah.commands.AriaDataCommand
 import com.github.ityeri.chunkHah.commands.BindCommand
 import com.github.ityeri.chunkHah.commands.PlayerChunkInfo
 import org.bukkit.Bukkit
@@ -18,6 +19,7 @@ class ChunkHah : JavaPlugin() {
     private val hitboxUtils: HitboxUtils = HitboxUtils()
     val chunkHandler = ChunkHandler(this)
 
+
     override fun onEnable() {
 
         Bukkit.getServer().sendMessage(Component.text("asdf"))
@@ -35,6 +37,7 @@ class ChunkHah : JavaPlugin() {
         // 명령어 등록
         BindCommand(this, chunkHandler).onEnable()
         PlayerChunkInfo(this, chunkHandler).onEnable()
+        AriaDataCommand(this, chunkHandler).onEnable()
 
 
         Bukkit.getLogger().info("이것은 당신의 청크하가 매우 정상적으로 켜졌다는 의미일까요?")
