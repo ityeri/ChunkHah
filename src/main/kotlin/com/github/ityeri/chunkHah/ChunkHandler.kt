@@ -4,6 +4,7 @@ package com.github.ityeri.chunkHah
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import org.apache.commons.lang3.function.FailableLongSupplier
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.entity.Player
@@ -59,6 +60,17 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         val fileReader = FileReader(file)
 
         val inputData: JsonObject
+        /*
+        저장 데이터 구조:
+        {
+            "플레이어 UUID": {
+                "world": {"x": 0, "z": 1},
+                "world_nether": {"x": 2, "z": 3},
+                "world_the_end": {"x": 4, "z": 5}
+            },
+            "다른 플레이어 UUID": ...
+        }
+        */
         val gson = Gson()
 
         try {
@@ -72,62 +84,23 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         // 플레이어 UUID 하나하나 가져옴
         for (playerUUIDString in inputData.keySet()) {
             val chunkManagerData = inputData.get(playerUUIDString) as JsonObject
-            /*
-            chunkManagerData 구조:
-            {
-                "world": {"x": 0, "z": 1},
-                "world_nether": {"x": 2, "z": 3},
-                "world_the_end": {"x": 4, "z": 5}
-            }
-             */
-
-            val overWorldChunk: Chunk
-            val netherWorldChunk: Chunk
-            val theEndChunk: Chunk
-
-            try {
-                // 오버월드
-                val overWorldData = gson.fromJson(chunkManagerData.get("world"), Map::class.java)
-                        as Map<String, Int>
-                overWorldChunk = Bukkit.getWorld("world")!!
-                    .getChunkAt(overWorldData.get("x")!!, overWorldData.get("z")!!)
-
-                // 네더월드
-                val netherWorldData = gson.fromJson(chunkManagerData.get("world_nether"), Map::class.java)
-                        as Map<String, Int>
-                netherWorldChunk = Bukkit.getWorld("world_nether")!!
-                    .getChunkAt(netherWorldData.get("x")!!, netherWorldData.get("z")!!)
-
-                // 날파리월드
-                val theEndData = gson.fromJson(chunkManagerData.get("world_the_end"), Map::class.java)
-                        as Map<String, Int>
-                theEndChunk = Bukkit.getWorld("world_the_end")!!
-                    .getChunkAt(netherWorldData.get("x")!!, netherWorldData.get("z")!!)
-
-            } catch (e: java.lang.NullPointerException) {
-                Bukkit.getLogger().warning(
-                    "사용자 UUID: \"$playerUUIDString\" 의 청크 데이터가 잘못되었습니다"
-                )
-                continue
-            }
-
 
             // 이미 매니저가 있을경우 기존 매니저의 청크를 변경하고,
             // 매지너가 없으면 새로 만듦
             val playerUUID = UUID.fromString(playerUUIDString)
 
+            // 청크 매니저가 있다면 기존걸 지우고 새로 만듦
             if (isChunkManagerExist(playerUUID)) {
-                getChunkManager(playerUUID)!!.overWorldChunk = overWorldChunk
-                getChunkManager(playerUUID)!!.netherWorldChunk = netherWorldChunk
-                getChunkManager(playerUUID)!!.theEndChunk = theEndChunk
+                removeManager(playerUUID)
+
+                val chunkManager = ChunkManager.fromJsonObject(chunkManagerData, plugin, playerUUID)
+                addChunkManager(chunkManager)
+                chunkManager.onEnable()
+
+            // 매니저가 없다면 걍 새로 만듦
             } else {
-                val chunkManager = ChunkManager(
-                    plugin, UUID.fromString(playerUUIDString),
-                    overWorldChunk, netherWorldChunk, theEndChunk
-                )
-                addChunkManager(
-                    chunkManager
-                )
+                val chunkManager = ChunkManager.fromJsonObject(chunkManagerData, plugin, playerUUID)
+                addChunkManager(chunkManager)
                 chunkManager.onEnable()
             }
         }
@@ -146,7 +119,7 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
 
         val outputData = JsonObject()
         /*
-        outputData 구조:
+        저장 데이터 구조:
         {
             "플레이어 UUID": {
                 "world": {"x": 0, "z": 1},
@@ -165,7 +138,7 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
             {
                 "world": {"x": 0, "z": 1},
                 "world_nether": {"x": 2, "z": 3},
-                "world_the_end": {"x": 4, "z": 5}
+                "world_the_end": {"x": 4, "z": 5}, ...
             }
              */
 
@@ -347,5 +320,19 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
             }
         }
         return null
+    }
+
+    fun removeManager(playerUUID: UUID) {
+        var isFind = true
+        for (chunkManager in chunkManagerList) {
+            if (chunkManager.playerUUID == playerUUID) {
+                chunkManagerList.remove(chunkManager)
+                isFind = false
+            }
+        }
+
+        if (!isFind) {
+            throw NoSuchElementException("ㅣㅣㅣㅣㅣㅣㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔ")
+        }
     }
 }
