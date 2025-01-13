@@ -5,7 +5,7 @@ import com.github.ityeri.chunkHah.commands.PlayerChunkInfo
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
-import com.github.ityeri.chunkHah.commands.*
+import com.github.ityeri.chunkHah.utils.HitboxUtils
 import net.kyori.adventure.text.Component
 
 // TODO 명려어 만들기 이것저것
@@ -35,6 +35,7 @@ class ChunkHah : JavaPlugin() {
         // 명령어 등록
         BindCommand(this, chunkHandler).onEnable()
         PlayerChunkInfo(this, chunkHandler).onEnable()
+
 
         Bukkit.getLogger().info("이것은 당신의 청크하가 매우 정상적으로 켜졌다는 의미일까요?")
     }
