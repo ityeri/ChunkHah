@@ -39,6 +39,9 @@ class ChunkHah : JavaPlugin() {
         PlayerChunkInfo(this, chunkHandler).onEnable()
         AriaDataCommand(this, chunkHandler).onEnable()
 
+        // 엔더맨 거시시
+        EndPortalFrameDropper(this).onEnable()
+
 
         Bukkit.getLogger().info("이것은 당신의 청크하가 매우 정상적으로 켜졌다는 의미일까요?")
     }
