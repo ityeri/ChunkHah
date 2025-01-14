@@ -31,3 +31,6 @@ build/
 # 어셈블리
 *.ams
 *.s
+
+# IDE 설정파일
+.idea/*
