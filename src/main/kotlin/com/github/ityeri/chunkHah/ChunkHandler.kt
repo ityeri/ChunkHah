@@ -94,7 +94,7 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
             if (isChunkManagerExist(playerUUID)) {
                 println("로드 메서드에서 삭에 호출")
                 println(Bukkit.getPlayer(playerUUID)!!.name)
-                removeManager(playerUUID)
+                removeChunkManager(playerUUID)
 
                 val chunkManager = ChunkManager.fromJsonObject(chunkManagerData, plugin, playerUUID)
                 addChunkManager(chunkManager)
@@ -144,8 +144,6 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         // 이미 해당 플레이어에 대한 매니저가 있을경우 작업 안해도 됨
         if (isChunkManagerExist(player)) { return null }
 
-
-
         // 중앙으로부터 나선을 그려가며
         // 점점 바깥쪽으로 나가면서 빈 청크를 찾음
         // 내가 옜날에 해둔 나선 알고리즘 구조도.txt 참고한거라
@@ -162,17 +160,16 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         y = 0
 
         while (true) {
-            if (x.absoluteValue <= y) x -= 1
-            else if (y.absoluteValue <= -x-1) y += 1
-            else if ((x.absoluteValue <= -y && x < 0) || (x.absoluteValue <= -y-1 && 0 <= x)) x += 1
-            else y -= 1
-
             val currentCheckingChunk = Bukkit.getWorld("world")!!.getChunkAt(x, y)
 
             if (!isChunkManagerExist(currentCheckingChunk)) {
                 overWorldChunk = currentCheckingChunk
                 break
             }
+            if (x.absoluteValue <= y) x -= 1
+            else if (y.absoluteValue <= -x-1) y += 1
+            else if ((x.absoluteValue <= -y && x < 0) || (x.absoluteValue <= -y-1 && 0 <= x)) x += 1
+            else y -= 1
         }
 
         // 네더월드 할당
@@ -180,17 +177,16 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         y = 0
 
         while (true) {
-            if (x.absoluteValue <= y) x -= 1
-            else if (y.absoluteValue <= -x-1) y += 1
-            else if ((x.absoluteValue <= -y && x < 0) || (x.absoluteValue <= -y-1 && 0 <= x)) x += 1
-            else y -= 1
-
             val currentCheckingChunk = Bukkit.getWorld("world_nether")!!.getChunkAt(x, y)
 
             if (!isChunkManagerExist(currentCheckingChunk)) {
                 netherWorldChunk = currentCheckingChunk
                 break
             }
+            if (x.absoluteValue <= y) x -= 1
+            else if (y.absoluteValue <= -x-1) y += 1
+            else if ((x.absoluteValue <= -y && x < 0) || (x.absoluteValue <= -y-1 && 0 <= x)) x += 1
+            else y -= 1
         }
 
         // 오버월드 할당
@@ -198,17 +194,16 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         y = 0
 
         while (true) {
-            if (x.absoluteValue <= y) x -= 1
-            else if (y.absoluteValue <= -x-1) y += 1
-            else if ((x.absoluteValue <= -y && x < 0) || (x.absoluteValue <= -y-1 && 0 <= x)) x += 1
-            else y -= 1
-
             val currentCheckingChunk = Bukkit.getWorld("world_the_end")!!.getChunkAt(x, y)
 
             if (!isChunkManagerExist(currentCheckingChunk)) {
                 theEndChunk = currentCheckingChunk
                 break
             }
+            if (x.absoluteValue <= y) x -= 1
+            else if (y.absoluteValue <= -x-1) y += 1
+            else if ((x.absoluteValue <= -y && x < 0) || (x.absoluteValue <= -y-1 && 0 <= x)) x += 1
+            else y -= 1
         }
 
         val chunkManager = ChunkManager(plugin,
@@ -287,10 +282,25 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         return chunkManagerSet
     }
 
-    fun removeManager(playerUUID: UUID) {
+    fun removeChunkManager(playerUUID: UUID) {
         var isFound = false
         for (chunkManager in chunkManagerSet) {
             if (chunkManager.playerUUID == playerUUID) {
+                chunkManagerSet.remove(chunkManager)
+                isFound = true
+            }
+        }
+
+        if (!isFound) { throw NoSuchElementException("해당 UUID 를 가진 플레이어를 찾을수 없습니다") }
+    }
+    fun removeChunkManager(chunk: Chunk) {
+        var isFound = false
+
+        for (chunkManager in this.chunkManagerSet) {
+            if (chunkManager.overWorldChunk == chunk ||
+                chunkManager.netherWorldChunk == chunk ||
+                chunkManager.theEndChunk == chunk) {
+
                 chunkManagerSet.remove(chunkManager)
                 isFound = true
             }
