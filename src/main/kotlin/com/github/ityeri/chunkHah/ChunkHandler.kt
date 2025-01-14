@@ -60,6 +60,7 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
     }
 
 
+
     fun loadAriaDatas() {
         val file = getAriaDataFile()
         chunkManagerSet.clear()
@@ -71,17 +72,6 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         val fileReader = FileReader(file)
 
         val inputData: JsonObject
-        /*
-        저장 데이터 구조:
-        {
-            "플레이어 UUID": {
-                "world": {"x": 0, "z": 1},
-                "world_nether": {"x": 2, "z": 3},
-                "world_the_end": {"x": 4, "z": 5}
-            },
-            "다른 플레이어 UUID": ...
-        }
-        */
         val gson = Gson()
 
         try {
@@ -129,17 +119,6 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         val fileWriter = FileWriter(file)
 
         val outputData = JsonObject()
-        /*
-        저장 데이터 구조:
-        {
-            "플레이어 UUID": {
-                "world": {"x": 0, "z": 1},
-                "world_nether": {"x": 2, "z": 3},
-                "world_the_end": {"x": 4, "z": 5}
-            },
-            "다른 플레이어 UUID": ...
-        }
-        */
 
 
         for (chunkManager in chunkManagerSet) {
@@ -152,6 +131,7 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
 
         fileWriter.close()
     }
+
 
 
     fun getAriaDataFile(): File {
@@ -311,7 +291,6 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         var isFound = false
         for (chunkManager in chunkManagerSet) {
             if (chunkManager.playerUUID == playerUUID) {
-                println("삭제됨")
                 chunkManagerSet.remove(chunkManager)
                 isFound = true
             }
