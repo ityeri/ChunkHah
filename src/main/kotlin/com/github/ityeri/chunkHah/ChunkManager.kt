@@ -21,7 +21,7 @@ import java.util.*
 import kotlin.random.Random
 
 
-// TODO 네더 진입시 스포너가 생기긴 하는데 스포너가 스폰을 안시기는 문재 해결, 리소스 테스크 추가
+// 리소스 테스크 추가
 
 class ChunkManager (
     val plugin: JavaPlugin,
@@ -91,6 +91,9 @@ class ChunkManager (
     fun update() {
         playerPositionCheck()
         firstEnterCheck()
+
+        overWorldMineralGenerator()
+        netherWorldMineralGenerator()
     }
 
 
@@ -183,7 +186,7 @@ class ChunkManager (
             onOverWorldFirstEnter()
         }
         else if (player!!.world.name == "world_nether" && isFirstEnterNetherWorld) {
-//            isFirstEnterNetherWorld = false
+            isFirstEnterNetherWorld = false
             onNetherWorldFirstEnter()
         }
         else if (player!!.world.name == "world_the_end" && isFirstEnterTheEnd) {
@@ -191,6 +194,7 @@ class ChunkManager (
             onTheEndFirstEnter()
         }
     }
+
 
     fun onOverWorldFirstEnter() {
         // 청크 중앙 나무 생성
@@ -214,8 +218,6 @@ class ChunkManager (
             TreeType.SMALL_JUNGLE,
             TreeType.COCOA_TREE,
             TreeType.JUNGLE_BUSH,
-            TreeType.RED_MUSHROOM,
-            TreeType.BROWN_MUSHROOM,
             TreeType.SWAMP,
             TreeType.ACACIA,
             TreeType.DARK_OAK,
@@ -253,6 +255,8 @@ class ChunkManager (
         blazeSpawnerState.spawnCount = 1
         blazeSpawnerState.spawnRange = 4
 
+        blazeSpawnerState.update()
+
 
         // 엔더맨 스포너도 생성
         val oldY = generatingY
@@ -273,10 +277,20 @@ class ChunkManager (
         endermanSpawnerState.requiredPlayerRange = 16
         endermanSpawnerState.spawnCount = 1
         endermanSpawnerState.spawnRange = 4
-    }
 
+        endermanSpawnerState.update()
+    }
     fun onTheEndFirstEnter() {
         player!!.sendMessage("날파리 월드에 처음 왔구나! 이건 월드 첨 들어가면 처리하는 코드rjtltl 테스트 메세지임")
+    }
+
+
+    fun overWorldMineralGenerator() {
+        // TODO
+    }
+
+    fun netherWorldMineralGenerator() {
+        // TODO
     }
 
 
@@ -425,6 +439,11 @@ class ChunkManager (
         if (!isInChunk(event.rightClicked.location)) { event.isCancelled = true }
     }
 
+    fun setChunk(chunk: Chunk) {
+        if (chunk.world.name == "world") { overWorldChunk = chunk }
+        if (chunk.world.name == "world_nether") { netherWorldChunk = chunk }
+        if (chunk.world.name == "world_the_end") { theEndChunk = chunk }
+    }
 
     fun isInChunk(location: Location): Boolean {
         // 플레이어가 위치하는 월드 기준으로 체크할 청크 가져오기
