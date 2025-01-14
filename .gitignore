@@ -23,7 +23,11 @@
 hs_err_pid*
 replay_pid*
 
-.kotlin/
+# 기타 프로젝트 폴더
+.ida/
+build/
 
+
+# 어셈블리
 *.ams
 *.s

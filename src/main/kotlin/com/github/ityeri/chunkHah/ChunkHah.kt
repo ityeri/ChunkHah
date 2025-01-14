@@ -1,13 +1,12 @@
 package com.github.ityeri.chunkHah
 
-import com.github.ityeri.chunkHah.commands.AriaDataCommand
+import com.github.ityeri.chunkHah.commands.AriaControlCommand
 import com.github.ityeri.chunkHah.commands.BindingCommands
 import com.github.ityeri.chunkHah.commands.ChunkManagerInfoCommands
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
 import com.github.ityeri.chunkHah.utils.HitboxUtils
-import org.bukkit.TreeType
 
 // TODO 명려어 만들기 이것저것
 // 영역 재할당, aria 로드, 세이브
@@ -33,7 +32,7 @@ class ChunkHah : JavaPlugin() {
         // 명령어 등록
         BindingCommands(this, chunkHandler).onEnable()
         ChunkManagerInfoCommands(this, chunkHandler).onEnable()
-        AriaDataCommand(this, chunkHandler).onEnable()
+        AriaControlCommand(this, chunkHandler).onEnable()
 
         // 엔더맨 거시시
         EndPortalFrameDropper(this).onEnable()
