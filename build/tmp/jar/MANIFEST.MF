@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: 청크핳
-Implementation-Version: 1.0-SNAPSHOT
-
