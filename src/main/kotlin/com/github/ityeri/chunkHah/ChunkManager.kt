@@ -21,7 +21,7 @@ import java.util.*
 import kotlin.random.Random
 
 
-// TODO 리소스 테스크 추가, 기본 나무생성 추가, runTaskTimer 에 다 쑤셔 넣지 말고 개별 메서드로 분리 ㄱ
+// TODO 네더 진입시 스포너가 생기긴 하는데 스포너가 스폰을 안시기는 문재 해결, 리소스 테스크 추가
 
 class ChunkManager (
     val plugin: JavaPlugin,
@@ -74,14 +74,23 @@ class ChunkManager (
 
 
 
-    fun onEnable() {
-        Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
-            playerPositionCheck()
-            firstEnterCheck()
+//    fun run() {
+//        val taskId = Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
+//            playerPositionCheck()
+//            firstEnterCheck()
+//
+//        }, 0L, 1L).taskId
+//
+//        Bukkit.getPluginManager().registerEvents(this, plugin)
+//    }
+//
+//    fun stop() {
+//        Bukkit.getScheduler().
+//    }
 
-        }, 0L, 1L).taskId
-
-        Bukkit.getPluginManager().registerEvents(this, plugin)
+    fun update() {
+        playerPositionCheck()
+        firstEnterCheck()
     }
 
 
@@ -169,54 +178,111 @@ class ChunkManager (
         // 이때 player 가 null 이 아님을 확인함
         if (player == null) { return }
 
-        if (player!!.world.name == "world" || isFirstEnterOverWorld) {
+        if (player!!.world.name == "world" && isFirstEnterOverWorld) {
             isFirstEnterOverWorld = false
-
-            // 청크 중앙 나무 생성
-            val generatingX = overWorldChunk.minX + 8
-            val generatingZ = overWorldChunk.minZ + 8
-
-            val treeGeneratingLocation = Location(player!!.world,
-                generatingX,
-                player!!.world.getHighestBlockAt(generatingX.toInt(), generatingZ.toInt())
-                    .location.y + 1,
-                generatingZ,
-            )
-
-            player!!.world.generateTree(treeGeneratingLocation, TreeType.TREE)
-
+            onOverWorldFirstEnter()
         }
-        else if (player!!.world.name == "world_nether" || isFirstEnterNetherWorld) {
-            isFirstEnterNetherWorld = false
-
-            val generatingX = netherWorldChunk.minX.toInt() + 8
-            val generatingY = Random.nextInt(8, 120)
-            val generatingZ = netherWorldChunk.minZ.toInt() + 8
-
-            val generatingBlock = player!!.world.getBlockAt(
-                generatingX, generatingY, generatingZ
-            )
-
-            generatingBlock.setType(Material.SPAWNER)
-            val state = generatingBlock.state as CreatureSpawner
-
-            // 1분에서 10분에 한번씩 생성됨
-            state.spawnedType = EntityType.BLAZE
-            state.minSpawnDelay = 20 * 60 * 1
-            state.minSpawnDelay = 20 * 60 * 10
-
+        else if (player!!.world.name == "world_nether" && isFirstEnterNetherWorld) {
+//            isFirstEnterNetherWorld = false
+            onNetherWorldFirstEnter()
         }
-        else if (player!!.world.name == "world_the_end" || isFirstEnterTheEnd) {
+        else if (player!!.world.name == "world_the_end" && isFirstEnterTheEnd) {
             isFirstEnterTheEnd = false
-            player!!.sendMessage("날파리 월드에 처음 왔구나! 이건 월드 첨 들어가면 처리하는 코드의 테스트 메세지임")
-
+            onTheEndFirstEnter()
         }
     }
 
+    fun onOverWorldFirstEnter() {
+        // 청크 중앙 나무 생성
+        val generatingX = overWorldChunk.minX + 8
+        val generatingZ = overWorldChunk.minZ + 8
+
+        val treeGeneratingLocation = Location(player!!.world,
+            generatingX,
+            player!!.world.getHighestBlockAt(generatingX.toInt(), generatingZ.toInt())
+                .location.y + 1,
+            generatingZ,
+        )
+
+        val treeTypes = setOf(
+            TreeType.TREE,
+            TreeType.BIG_TREE,
+            TreeType.REDWOOD,
+            TreeType.TALL_REDWOOD,
+            TreeType.BIRCH,
+            TreeType.JUNGLE,
+            TreeType.SMALL_JUNGLE,
+            TreeType.COCOA_TREE,
+            TreeType.JUNGLE_BUSH,
+            TreeType.RED_MUSHROOM,
+            TreeType.BROWN_MUSHROOM,
+            TreeType.SWAMP,
+            TreeType.ACACIA,
+            TreeType.DARK_OAK,
+            TreeType.MEGA_REDWOOD,
+            TreeType.MEGA_PINE,
+            TreeType.TALL_BIRCH,
+            TreeType.CRIMSON_FUNGUS,
+            TreeType.WARPED_FUNGUS,
+            TreeType.AZALEA,
+            TreeType.MANGROVE,
+            TreeType.CHERRY
+        )
+
+        player!!.world.generateTree(treeGeneratingLocation, treeTypes.random())
+    }
+    fun onNetherWorldFirstEnter() {
+        // 블레이즈 스포너 생성
+        val generatingX = netherWorldChunk.minX.toInt() + 8
+        var generatingY = Random.nextInt(8, 120)
+        val generatingZ = netherWorldChunk.minZ.toInt() + 8
+
+        val blazeSpawner = player!!.world.getBlockAt(
+            generatingX, generatingY, generatingZ
+        )
+
+        blazeSpawner.setType(Material.SPAWNER)
+        val blazeSpawnerState = blazeSpawner.state as CreatureSpawner
+
+        // 1분에서 10분에 한번씩 생성됨
+        blazeSpawnerState.spawnedType = EntityType.BLAZE
+        blazeSpawnerState.maxSpawnDelay = 20 * 60 * 10
+        blazeSpawnerState.minSpawnDelay = 20 * 60 * 1
+        blazeSpawnerState.maxNearbyEntities = 6
+        blazeSpawnerState.requiredPlayerRange = 16
+        blazeSpawnerState.spawnCount = 1
+        blazeSpawnerState.spawnRange = 4
+
+
+        // 엔더맨 스포너도 생성
+        val oldY = generatingY
+        while (oldY == generatingY) { generatingY = Random.nextInt(8, 120) }
+
+        val endermanSpawner = player!!.world.getBlockAt(
+            generatingX, generatingY, generatingZ
+        )
+
+        endermanSpawner.setType(Material.SPAWNER)
+        val endermanSpawnerState = endermanSpawner.state as CreatureSpawner
+
+        // 30초에서 1분에 한번씩 생성됨
+        endermanSpawnerState.spawnedType = EntityType.ENDERMAN
+        endermanSpawnerState.maxSpawnDelay = 20 * 60
+        endermanSpawnerState.minSpawnDelay = 20 * 30
+        endermanSpawnerState.maxNearbyEntities = 6
+        endermanSpawnerState.requiredPlayerRange = 16
+        endermanSpawnerState.spawnCount = 1
+        endermanSpawnerState.spawnRange = 4
+    }
+
+    fun onTheEndFirstEnter() {
+        player!!.sendMessage("날파리 월드에 처음 왔구나! 이건 월드 첨 들어가면 처리하는 코드rjtltl 테스트 메세지임")
+    }
 
 
     companion object {
         fun fromJsonObject(jsonObject: JsonObject, plugin: JavaPlugin, playerUUID: UUID) : ChunkManager {
+
             /*
             chunkManagerData 구조:
             {
@@ -242,21 +308,30 @@ class ChunkManager (
                 val overWorldData = gson.fromJson(jsonObject.get("world"), Map::class.java)
                         as Map<String, *>
                 overWorldChunk = Bukkit.getWorld("world")!!
-                    .getChunkAt(overWorldData.get("x")!! as Int, overWorldData.get("z")!! as Int)
+                    .getChunkAt(
+                        (overWorldData.get("x")!! as Double).toInt(),
+                        (overWorldData.get("z")!! as Double).toInt()
+                    )
                 isFirstEnterOverWorld = overWorldData.get("isFirst") as Boolean? ?: true
 
                 // 네더월드
                 val netherWorldData = gson.fromJson(jsonObject.get("world_nether"), Map::class.java)
                         as Map<String, *>
                 netherWorldChunk = Bukkit.getWorld("world_nether")!!
-                    .getChunkAt(netherWorldData.get("x")!! as Int, netherWorldData.get("z")!! as Int)
+                    .getChunkAt(
+                        (netherWorldData.get("x")!! as Double).toInt(),
+                        (netherWorldData.get("z")!! as Double).toInt()
+                    )
                 isFirstEnterNetherWorld = netherWorldData.get("isFirst") as Boolean? ?: true
 
                 // 날파리월드
                 val theEndData = gson.fromJson(jsonObject.get("world_the_end"), Map::class.java)
                         as Map<String, *>
                 theEndChunk = Bukkit.getWorld("world_the_end")!!
-                    .getChunkAt(netherWorldData.get("x")!! as Int, netherWorldData.get("z")!! as Int)
+                    .getChunkAt(
+                        (theEndData.get("x")!! as Double).toInt(),
+                        (theEndData.get("z")!! as Double).toInt()
+                    )
                 isFirstEnterTheEnd = theEndData.get("isFirst") as Boolean? ?: true
             }
             catch (e: java.lang.NullPointerException) {
@@ -314,8 +389,6 @@ class ChunkManager (
     fun bind() { isBind = true }
     fun unbind() { isBind = false }
 
-
-
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
         if (event.player != player) { return }
@@ -370,10 +443,9 @@ class ChunkManager (
         return true
     }
 
+    val Chunk.minX: Double get() = this.x * 16.0
+    val Chunk.maxX: Double get() = this.x * 16.0 + 16
+
+    val Chunk.minZ: Double get() = this.z * 16.0
+    val Chunk.maxZ: Double get() = this.z * 16.0 + 16
 }
-
-val Chunk.minX: Double get() = this.x * 16.0
-val Chunk.maxX: Double get() = this.x * 16.0 + 16
-
-val Chunk.minZ: Double get() = this.z * 16.0
-val Chunk.maxZ: Double get() = this.z * 16.0 + 16
