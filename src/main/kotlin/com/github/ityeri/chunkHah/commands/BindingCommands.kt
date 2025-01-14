@@ -9,18 +9,18 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
 
-class BindCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler) {
+class BindingCommands(val plugin: JavaPlugin, val chunkHandler: ChunkHandler) {
     val manager = PaperCommandManager(plugin)
 
     fun onEnable() {
         val commandManager = PaperCommandManager(plugin)
-        commandManager.registerCommand(Bind(chunkHandler))
+        commandManager.registerCommand(BindCommand(chunkHandler))
         commandManager.registerCommand(Unbind(chunkHandler))
     }
 
     @CommandAlias("bind")
     @CommandPermission("op")
-    class Bind(val chunkHandler: ChunkHandler) : BaseCommand() {
+    class BindCommand(val chunkHandler: ChunkHandler) : BaseCommand() {
         @Default
         @CommandCompletion("@players @nothing")
         fun onCommand(sender: CommandSender, targetPlayerName: String) {
