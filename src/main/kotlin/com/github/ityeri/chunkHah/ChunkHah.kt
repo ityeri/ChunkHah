@@ -1,13 +1,13 @@
 package com.github.ityeri.chunkHah
 
 import com.github.ityeri.chunkHah.commands.AriaDataCommand
-import com.github.ityeri.chunkHah.commands.BindCommand
-import com.github.ityeri.chunkHah.commands.PlayerChunkInfo
+import com.github.ityeri.chunkHah.commands.BindingCommands
+import com.github.ityeri.chunkHah.commands.ChunkManagerInfoCommands
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
 import com.github.ityeri.chunkHah.utils.HitboxUtils
-import net.kyori.adventure.text.Component
+import org.bukkit.TreeType
 
 // TODO 명려어 만들기 이것저것
 // 영역 재할당, aria 로드, 세이브
@@ -22,12 +22,8 @@ class ChunkHah : JavaPlugin() {
 
     override fun onEnable() {
 
-        Bukkit.getServer().sendMessage(Component.text("asdf"))
-
-        chunkHandler.onEnable()
-
         try {
-            chunkHandler.loadAriaData()
+            chunkHandler.loadAriaDatas()
         } catch (e: FileNotFoundException) {
             Bukkit.getLogger().warning("영역 데이터 파일을 찾을수 없습니다. 자동 할당을 사용합니다")
         } catch (e: ChunkHandler.WrongAriaDataException) {
@@ -35,12 +31,14 @@ class ChunkHah : JavaPlugin() {
         }
 
         // 명령어 등록
-        BindCommand(this, chunkHandler).onEnable()
-        PlayerChunkInfo(this, chunkHandler).onEnable()
+        BindingCommands(this, chunkHandler).onEnable()
+        ChunkManagerInfoCommands(this, chunkHandler).onEnable()
         AriaDataCommand(this, chunkHandler).onEnable()
 
         // 엔더맨 거시시
         EndPortalFrameDropper(this).onEnable()
+
+        chunkHandler.onEnable()
 
 
         Bukkit.getLogger().info("이것은 당신의 청크하가 매우 정상적으로 켜졌다는 의미일까요?")
