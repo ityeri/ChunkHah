@@ -8,11 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
 import com.github.ityeri.chunkHah.utils.HitboxUtils
 
-// TODO 명려어 만들기 이것저것
-// 영역 재할당, aria 로드, 세이브
-// 기타 편의성 거시기
-// 권한 설정? 기타 등등
-// 리소스 테스크, 엔딩 볼수 있게 만ㄷ르기
+// TODO 리소스 테스크
 
 class ChunkHah : JavaPlugin() {
     private val hitboxUtils: HitboxUtils = HitboxUtils()
