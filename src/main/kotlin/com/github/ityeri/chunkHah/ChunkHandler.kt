@@ -4,7 +4,6 @@ package com.github.ityeri.chunkHah
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import org.apache.commons.lang3.function.FailableLongSupplier
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.entity.Player
@@ -22,10 +21,15 @@ import kotlin.math.absoluteValue
 
 /**
  * ChunkManager 객체를 할당하고, 관리하는 객체
- * /!\ ChunkManager 가 한청크에 하나씩 있다고 가정하고 동작함!
+ * /!\
+ * 한 플레이어에 대해선 청크 매니저는 하나씩만 있음!
+ * 다만 하나에 청크에 대해선 서로 다른 여러명의 플레이어의 청크 매니저가 있을수 있음
+ * /!\
  */
 class ChunkHandler(val plugin: JavaPlugin) : Listener {
-    val chunkManagerList: MutableSet<ChunkManager> = mutableSetOf()
+    val chunkManagerSet: MutableSet<ChunkManager> = mutableSetOf()
+
+    class DuplicatePlayerException(message: String) : Exception(message)
 
     class WrongAriaDataException(message: String) : RuntimeException(message)
 
@@ -35,13 +39,19 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
 
         // 서버에 있는 인원 전부 메니저 만듦
         for (player in Bukkit.getOnlinePlayers()) {
-            newChunkManager(player)?.onEnable()
+            newChunkManager(player)
         }
+
+        Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
+            for (chunkManager in chunkManagerSet) {
+                chunkManager.update()
+            }
+        }, 0, 1)
     }
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        newChunkManager(event.player)?.onEnable()
+        newChunkManager(event.player)
     }
 
     @EventHandler
@@ -50,8 +60,9 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
     }
 
 
-    fun loadAriaData() {
+    fun loadAriaDatas() {
         val file = getAriaDataFile()
+        chunkManagerSet.clear()
 
         if (!file.exists()) {
             throw FileNotFoundException("영역 데이터 파일 \"${file.path}\" 을/를 찾을수 없습니다")
@@ -91,17 +102,17 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
 
             // 청크 매니저가 있다면 기존걸 지우고 새로 만듦
             if (isChunkManagerExist(playerUUID)) {
+                println("로드 메서드에서 삭에 호출")
+                println(Bukkit.getPlayer(playerUUID)!!.name)
                 removeManager(playerUUID)
 
                 val chunkManager = ChunkManager.fromJsonObject(chunkManagerData, plugin, playerUUID)
                 addChunkManager(chunkManager)
-                chunkManager.onEnable()
 
-            // 매니저가 없다면 걍 새로 만듦
+                // 매니저가 없다면 걍 새로 만듦
             } else {
                 val chunkManager = ChunkManager.fromJsonObject(chunkManagerData, plugin, playerUUID)
                 addChunkManager(chunkManager)
-                chunkManager.onEnable()
             }
         }
 
@@ -131,34 +142,8 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         */
 
 
-        for (chunkManager in chunkManagerList) {
-            val chunkManagerData = JsonObject()
-            /*
-            chunkManagerData 구조:
-            {
-                "world": {"x": 0, "z": 1},
-                "world_nether": {"x": 2, "z": 3},
-                "world_the_end": {"x": 4, "z": 5}, ...
-            }
-             */
-
-            val overWorldChunkData = JsonObject()
-            overWorldChunkData.addProperty("x", chunkManager.overWorldChunk.x)
-            overWorldChunkData.addProperty("z", chunkManager.overWorldChunk.z)
-
-            val netherWorldChunkData = JsonObject()
-            netherWorldChunkData.addProperty("x", chunkManager.netherWorldChunk.x)
-            netherWorldChunkData.addProperty("z", chunkManager.netherWorldChunk.z)
-
-            val theEndChunkData = JsonObject()
-            theEndChunkData.addProperty("x", chunkManager.theEndChunk.x)
-            theEndChunkData.addProperty("z", chunkManager.theEndChunk.z)
-
-            chunkManagerData.add("world", overWorldChunkData)
-            chunkManagerData.add("world_nether", netherWorldChunkData)
-            chunkManagerData.add("world_the_end", theEndChunkData)
-
-            outputData.add(chunkManager.playerUUID.toString(), chunkManagerData)
+        for (chunkManager in chunkManagerSet) {
+            outputData.add(chunkManager.playerUUID.toString(), chunkManager.toJsonObject())
         }
 
         // 파일의 가독성을 설정하여 저장
@@ -259,44 +244,43 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
     }
 
     fun addChunkManager(chunkManager: ChunkManager) {
-        chunkManagerList.add(chunkManager)
+        for (originChunkManager in chunkManagerSet) {
+            if (originChunkManager.playerUUID == chunkManager.playerUUID) {
+                throw DuplicatePlayerException("이미 동일한 플레이어의 청크 매니저가 존재 합니다")
+            }
+        }
+        chunkManagerSet.add(chunkManager)
     }
 
     fun isChunkManagerExist(player: Player): Boolean {
-        var isExist = false
-        for (chunkManager in chunkManagerList) {
+        for (chunkManager in chunkManagerSet) {
             if (chunkManager.playerUUID == player.uniqueId) {
-                isExist = true
-                break
+                return true
             }
         }
-        return isExist
+        return false
     }
     fun isChunkManagerExist(playerUUID: UUID): Boolean {
-        var isExist = false
-        for (chunkManager in chunkManagerList) {
+        for (chunkManager in chunkManagerSet) {
             if (chunkManager.playerUUID == playerUUID) {
-                isExist = true
-                break
+                return true
             }
         }
-        return isExist
+        return false
     }
     fun isChunkManagerExist(chunk: Chunk): Boolean {
-        var isExist = false
-        for (chunkManager in chunkManagerList) {
+        for (chunkManager in chunkManagerSet) {
             if (chunkManager.overWorldChunk == chunk ||
                 chunkManager.netherWorldChunk == chunk ||
                 chunkManager.theEndChunk == chunk) {
-                isExist = true
-                break
+                return true
             }
         }
-        return isExist
+        return false
     }
 
     fun getChunkManager(player: Player): ChunkManager? {
-        for (chunkManager in chunkManagerList) {
+        for (chunkManager in this.chunkManagerSet) {
             if (chunkManager.playerUUID == player.uniqueId) {
                 return chunkManager
             }
@@ -304,35 +288,35 @@ class ChunkHandler(val plugin: JavaPlugin) : Listener {
         return null
     }
     fun getChunkManager(playerUUID: UUID): ChunkManager? {
-        for (chunkManager in chunkManagerList) {
+        for (chunkManager in chunkManagerSet) {
             if (chunkManager.playerUUID == playerUUID) {
                 return chunkManager
             }
         }
         return null
     }
-    fun getChunkManager(chunk: Chunk): ChunkManager? {
-        for (chunkManager in chunkManagerList) {
+    fun getChunkManager(chunk: Chunk): MutableSet<ChunkManager> {
+        val chunkManagerSet: MutableSet<ChunkManager> = mutableSetOf()
+        for (chunkManager in this.chunkManagerSet) {
             if (chunkManager.overWorldChunk == chunk ||
                 chunkManager.netherWorldChunk == chunk ||
                 chunkManager.theEndChunk == chunk) {
-                return chunkManager
+                chunkManagerSet.add(chunkManager)
             }
         }
-        return null
+        return chunkManagerSet
     }
 
     fun removeManager(playerUUID: UUID) {
-        var isFind = true
-        for (chunkManager in chunkManagerList) {
+        var isFound = false
+        for (chunkManager in chunkManagerSet) {
             if (chunkManager.playerUUID == playerUUID) {
-                chunkManagerList.remove(chunkManager)
-                isFind = false
+                println("삭제됨")
+                chunkManagerSet.remove(chunkManager)
+                isFound = true
             }
         }
 
-        if (!isFind) {
-            throw NoSuchElementException("ㅣㅣㅣㅣㅣㅣㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅖㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔ")
-        }
+        if (!isFound) { throw NoSuchElementException("해당 UUID 를 가진 플레이어를 찾을수 없습니다") }
     }
 }
