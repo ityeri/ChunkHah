@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da5d9-f90f-4eb9-b328-335cfbb12adf" name="변경" comment="기타 프로젝트 설정파일 업데이트">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/commands/ChunkManagerInfoCommands.kt" afterDir="false" />
+    <list default="true" id="582da5d9-f90f-4eb9-b328-335cfbb12adf" name="변경" comment="기타 프로젝트 파일 업데이트">
+      <change afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.s" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/lookups/lookups.tab.values" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.s" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.bin" afterDir="false" />
@@ -94,13 +97,6 @@
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/last-build.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/ChunkHah.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/ChunkHah.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/ChunkHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/ChunkHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/ChunkManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/ChunkManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/EndPortalFrameDropper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/EndPortalFrameDropper.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/commands/AriaDataCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/commands/AriaDataCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/commands/BindCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/commands/BindingCommands.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/github/ityeri/chunkHah/commands/PlayerChunkInfo.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -323,7 +319,71 @@
       <option name="project" value="LOCAL" />
       <updated>1736745819543</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="클래스 명 변경, 모든 청크 메니저 정보 표기 기능 추가">
+      <option name="closed" value="true" />
+      <created>1736818579394</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818579394</updated>
+    </task>
+    <task id="LOCAL-00012" summary="chunkManager.onEnable 줄을 아래로 이동">
+      <option name="closed" value="true" />
+      <created>1736818609342</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818609342</updated>
+    </task>
+    <task id="LOCAL-00013" summary="수동으로 chunkManager 를 업데이트 하도록 수정, 청크를 가져오고, 지우는 메서드 수정">
+      <option name="closed" value="true" />
+      <created>1736818700665</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818700665</updated>
+    </task>
+    <task id="LOCAL-00014" summary="chunkHandler.onEnable 줄 이동">
+      <option name="closed" value="true" />
+      <created>1736818743490</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818743490</updated>
+    </task>
+    <task id="LOCAL-00015" summary="클래스 명 변경">
+      <option name="closed" value="true" />
+      <created>1736818774197</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818774197</updated>
+    </task>
+    <task id="LOCAL-00016" summary="드롭 확률 추가">
+      <option name="closed" value="true" />
+      <created>1736818805458</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818805458</updated>
+    </task>
+    <task id="LOCAL-00017" summary="리펙터링">
+      <option name="closed" value="true" />
+      <created>1736818856470</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818856470</updated>
+    </task>
+    <task id="LOCAL-00018" summary="기타 프로젝트 파일 업데이트">
+      <option name="closed" value="true" />
+      <created>1736818882638</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1736818882638</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -355,6 +415,14 @@
     <MESSAGE value="영역파일 로드/저장 명령어 추가" />
     <MESSAGE value="엔더맨 엔드포탈 프레임 드랍 기능 추가" />
     <MESSAGE value="기타 프로젝트 설정파일 업데이트" />
-    <option name="LAST_COMMIT_MESSAGE" value="기타 프로젝트 설정파일 업데이트" />
+    <MESSAGE value="클래스 명 변경, 모든 청크 메니저 정보 표기 기능 추가" />
+    <MESSAGE value="chunkManager.onEnable 줄을 아래로 이동" />
+    <MESSAGE value="수동으로 chunkManager 를 업데이트 하도록 수정, 청크를 가져오고, 지우는 메서드 수정" />
+    <MESSAGE value="chunkHandler.onEnable 줄 이동" />
+    <MESSAGE value="클래스 명 변경" />
+    <MESSAGE value="드롭 확률 추가" />
+    <MESSAGE value="리펙터링" />
+    <MESSAGE value="기타 프로젝트 파일 업데이트" />
+    <option name="LAST_COMMIT_MESSAGE" value="기타 프로젝트 파일 업데이트" />
   </component>
 </project>
