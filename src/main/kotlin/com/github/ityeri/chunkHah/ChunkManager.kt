@@ -12,6 +12,7 @@ import org.bukkit.block.CreatureSpawner
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEntityEvent
@@ -48,6 +49,7 @@ class ChunkManager (
 
     var isBind: Boolean = true;
     private val throwStrength: Double = 0.2;
+    private val blank: Double = 0.1;
 
     val player: Player?
         get() { return Bukkit.getPlayer(playerUUID) }
@@ -74,23 +76,19 @@ class ChunkManager (
 
 
 
-//    fun run() {
-//        val taskId = Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
-//            playerPositionCheck()
-//            firstEnterCheck()
-//
-//        }, 0L, 1L).taskId
-//
-//        Bukkit.getPluginManager().registerEvents(this, plugin)
-//    }
-//
-//    fun stop() {
-//        Bukkit.getScheduler().
-//    }
+    fun onEnable() {
+        Bukkit.getPluginManager().registerEvents(this, plugin)
+    }
+
+    fun onDisable() {
+        HandlerList.unregisterAll(this)
+    }
+
 
     fun update() {
         playerPositionCheck()
         firstEnterCheck()
+        cachePlayerName()
 
         overWorldMineralGenerator()
         netherWorldMineralGenerator()
@@ -134,20 +132,20 @@ class ChunkManager (
 
             // 플레이어가 이동할 좌표 계산
             if (player!!.x < chunkMinX) {
-                newLocation.x = chunkMinX
+                newLocation.x = chunkMinX + blank
                 newVelocity.x = throwStrength
             }
             else if (chunkMaxX < player!!.x) {
-                newLocation.x = chunkMaxX
+                newLocation.x = chunkMaxX - blank
                 newVelocity.x = -throwStrength
             }
 
             if (player!!.z < chunkMinZ) {
-                newLocation.z = chunkMinZ
+                newLocation.z = chunkMinZ + blank
                 newVelocity.z = throwStrength
             }
             else if (chunkMaxZ < player!!.z) {
-                newLocation.z = chunkMaxZ
+                newLocation.z = chunkMaxZ - blank
                 newVelocity.z = -throwStrength
             }
 
@@ -194,7 +192,6 @@ class ChunkManager (
             onTheEndFirstEnter()
         }
     }
-
 
     fun onOverWorldFirstEnter() {
         // 청크 중앙 나무 생성
@@ -284,6 +281,8 @@ class ChunkManager (
         player!!.sendMessage("날파리 월드에 처음 왔구나! 이건 월드 첨 들어가면 처리하는 코드rjtltl 테스트 메세지임")
     }
 
+    fun cachePlayerName() { playerName }
+
 
     fun overWorldMineralGenerator() {
         // TODO
@@ -292,6 +291,7 @@ class ChunkManager (
     fun netherWorldMineralGenerator() {
         // TODO
     }
+
 
 
     companion object {
