@@ -128,7 +128,9 @@ class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler)
     class ClearAllChunkCommand(val chunkHandler: ChunkHandler) : BaseCommand() {
         @Default
         fun onCommand(sender: CommandSender) {
-            chunkHandler.chunkManagerSet.clear()
+            for (chunkManager in chunkHandler.getChunkManagers()) {
+                chunkHandler.removeChunkManager(chunkManager)
+            }
             chunkHandler.saveAriaData()
         }
     }
@@ -148,9 +150,10 @@ class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler)
             val chunkManager = chunkHandler.getChunkManager(targetPlayer)
             if (chunkManager == null) {
                 sender.sendMessage("해당 플레이어에 대한 청크 매니저가 없습니다")
+                return
             }
 
-            chunkHandler.chunkManagerSet.remove(chunkManager)
+            chunkHandler.removeChunkManager(chunkManager)
         }
     }
 
