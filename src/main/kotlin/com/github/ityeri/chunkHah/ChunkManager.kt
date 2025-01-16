@@ -18,6 +18,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.Tag
 import java.util.*
 import kotlin.random.Random
 
@@ -48,8 +49,8 @@ class ChunkManager (
 
 
     var isBind: Boolean = true;
-    private val throwStrength: Double = 0.2;
-    private val blank: Double = 0.1;
+    private val throwStrength: Double = 0.5;
+    private val blank: Double = 0.01;
 
     val player: Player?
         get() { return Bukkit.getPlayer(playerUUID) }
@@ -69,7 +70,15 @@ class ChunkManager (
 
     private val passableBlocks: List<Material> = listOf(
         Material.AIR, Material.WATER, Material.LAVA, Material.GLASS,
-        Material.SCAFFOLDING
+        Material.SCAFFOLDING, Material.CHEST,
+    )
+
+    private val passbleTags: List<Tag<Material>> = listOf(
+        Tag.SLABS,
+        Tag.FENCES,
+        Tag.WALLS,
+        Tag.LEAVES,
+        Tag.DOORS
     )
 
 
@@ -152,21 +161,38 @@ class ChunkManager (
             // 플레이어가 땅속에 쳐박히는거 방지하기 위해서
             // Y 좌표 하나씩 올리고 수시로 tp 하며 빈곳 찾음
             while (true) {
-                var isFind = true
 
                 player!!.teleport(newLocation)
                 val blocks = HitboxUtils.getContactBlocks(player!!)
 
+                var isBlockPassable = false
+
                 for (block in blocks) {
+
                     if (block.type in passableBlocks || block.isPassable) {
                         // 블럭이 통과 가능한 블럭에 포함도 있거나 통과 가능할경우
+                        isBlockPassable = true
                     } else {
-                        newLocation.y += 1
-                        isFind = false
+                        isBlockPassable = false
                     }
+
+                    if (!isBlockPassable) {
+                        for (tag in passbleTags) {
+                            if (tag.isTagged(block.type)) {
+                                isBlockPassable = true
+                                break
+                            }
+                        }
+                    }
+
                 }
 
-                if (isFind) { break }
+
+                if (isBlockPassable) {
+                    break
+                } else {
+                    newLocation.y += 1
+                }
             }
 
             player!!.teleport(newLocation)
