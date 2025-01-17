@@ -35,7 +35,6 @@ class ChunkHah : JavaPlugin() {
 
         chunkHandler.onEnable()
 
-
         Bukkit.getLogger().info("이것은 당신의 청크하가 매우 정상적으로 켜졌다는 의미일까요?")
     }
 

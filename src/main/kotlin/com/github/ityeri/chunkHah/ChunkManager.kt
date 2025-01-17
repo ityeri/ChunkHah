@@ -81,6 +81,56 @@ class ChunkManager (
         Tag.DOORS
     )
 
+    val golbalProbability = 0.005
+    val blockTypesToReplace: List<Material> = listOf(
+        Material.STONE, Material.COBBLESTONE,
+        Material.DEEPSLATE, Material.COBBLED_DEEPSLATE
+    )
+
+    val overWorldBlockGenerators: List<BlockGenerator> = listOf(
+        BlockGenerator(16, 40, 1 * golbalProbability,
+            Material.DEEPSLATE_IRON_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+
+        BlockGenerator(-64, 80, 0.3 * golbalProbability,
+            Material.DEEPSLATE_DIAMOND_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+
+        BlockGenerator(0, 32, 0.15 * golbalProbability,
+            Material.DEEPSLATE_LAPIS_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+
+        BlockGenerator(96, 96, 1.7 * golbalProbability,
+            Material.COAL_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+
+        BlockGenerator(-64, 32, 1 * golbalProbability,
+            Material.DEEPSLATE_REDSTONE_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+
+        BlockGenerator(-16, 48, 0.3 * golbalProbability,
+            Material.DEEPSLATE_GOLD_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+
+        BlockGenerator(48, 64, 1 * golbalProbability,
+            Material.COPPER_ORE, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
+            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
+            blockTypesToReplace),
+    )
+
 
 
 
@@ -95,9 +145,10 @@ class ChunkManager (
 
 
     fun update() {
+        if (player == null) { return }
         playerPositionCheck()
         firstEnterCheck()
-        cachePlayerName()
+        cachingPlayerName()
 
         overWorldMineralGenerator()
         netherWorldMineralGenerator()
@@ -105,9 +156,7 @@ class ChunkManager (
 
 
     fun playerPositionCheck() {
-        // 먼저 플레이어가 재접하거나 나갔을때를 대비해서 플레 객체 유효성 검사
-        // 이때 player 가 null 이 아님을 확인함
-        if (player == null) { return }
+        // 이 함수는 update 함수에서 플레이어 객체가 null 이 아님을 보장하고 실행됨
 
         // 청크 이동 제한이 무시되는 경우를 처리함
         if (!isBind) { return }
@@ -201,9 +250,7 @@ class ChunkManager (
     }
 
     fun firstEnterCheck() {
-        // 먼저 플레이어가 재접하거나 나갔을때를 대비해서 플레 객체 유효성 검사
-        // 이때 player 가 null 이 아님을 확인함
-        if (player == null) { return }
+        // 이 함수는 update 함수에서 플레이어 객체가 null 이 아님을 보장하고 실행됨
 
         if (player!!.world.name == "world" && isFirstEnterOverWorld) {
             isFirstEnterOverWorld = false
@@ -307,11 +354,13 @@ class ChunkManager (
         player!!.sendMessage("날파리 월드에 처음 왔구나! 이건 월드 첨 들어가면 처리하는 코드rjtltl 테스트 메세지임")
     }
 
-    fun cachePlayerName() { playerName }
+    fun cachingPlayerName() { playerName }
 
 
     fun overWorldMineralGenerator() {
-        // TODO
+        for (generator in overWorldBlockGenerators) {
+            generator.generating()
+        }
     }
 
     fun netherWorldMineralGenerator() {
@@ -486,6 +535,10 @@ class ChunkManager (
         }
 
         return true
+    }
+
+    fun toStringInfo(): String {
+        return ""
     }
 
     val Chunk.minX: Double get() = this.x * 16.0
