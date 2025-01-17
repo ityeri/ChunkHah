@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
+import kotlin.math.floor
 
 class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler) {
 
@@ -87,7 +88,7 @@ class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler)
             val newChunkZ: Int
 
             if (newChunkXstr == "~") {
-                newChunkX = (senderPlayer!!.x/16).toInt()
+                newChunkX = Math.floor(senderPlayer!!.x/16).toInt()
             } else {
 
                 try { newChunkX = newChunkXstr.toInt() }
@@ -98,7 +99,7 @@ class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler)
             }
 
             if (newChunkZstr == "~") {
-                newChunkZ = (senderPlayer!!.z/16).toInt()
+                newChunkZ = Math.floor(senderPlayer!!.z/16).toInt()
             } else {
                 try { newChunkZ = newChunkZstr.toInt() }
                 catch (e: NumberFormatException) {
