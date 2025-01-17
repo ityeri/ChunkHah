@@ -5,31 +5,34 @@ import kotlin.random.nextInt
 
 class GaussianRandom {
     companion object {
-        fun gaussianRandom(center: Int, range: Int): Int {
-            val probabilityTable: HashMap<Int, Int> = hashMapOf()
+        fun gaussianRandom(center: Int, range: Int): Int? {
+            val probabilityTable: MutableList<Int> = mutableListOf()
 
             var currentValue: Int = center - range
             for (i in 0 until range) {
-                probabilityTable.set(i, currentValue)
+                probabilityTable.add(i)
                 currentValue++
             }
 
             for (i in range downTo 0) {
-                probabilityTable.set(i, currentValue)
+                probabilityTable.add(i)
                 currentValue++
             }
-            val total = probabilityTable.keys.sum()
+            val total = probabilityTable.sum()
 
             val randomInt = Random.nextInt(0 until total)
 
             var currentWeight = 0
+            currentValue = center - range
 
-            for ((weight, value) in probabilityTable) {
+            for (weight in probabilityTable) {
                 currentWeight += weight
                 if (randomInt <= currentWeight) {
-                    return value
+                    return currentValue
                 }
+                currentValue ++
             }
+            return null
         }
 
     }
