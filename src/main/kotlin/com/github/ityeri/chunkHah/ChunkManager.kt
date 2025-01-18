@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.Tag
+import org.bukkit.inventory.ItemStack
 import java.util.*
 import kotlin.random.Random
 
@@ -49,7 +50,7 @@ class ChunkManager (
 
 
     var isBind: Boolean = true;
-    private val throwStrength: Double = 0.5;
+    private val throwStrength: Double = 0.1;
     private val blank: Double = 0.01;
 
     val player: Player?
@@ -82,53 +83,75 @@ class ChunkManager (
     )
 
     val golbalProbability = 0.005
+
+
     val blockTypesToReplace: List<Material> = listOf(
         Material.STONE, Material.COBBLESTONE,
-        Material.DEEPSLATE, Material.COBBLED_DEEPSLATE
+        Material.DEEPSLATE, Material.COBBLED_DEEPSLATE,
+//        Material.LAVA, Material.WATER
     )
+//    val blockTypesToReplaceLiquid: List<Material> = listOf(
+//        Material.STONE, Material.COBBLESTONE,
+//        Material.DEEPSLATE, Material.COBBLED_DEEPSLATE
+//    )
+
 
     val overWorldBlockGenerators: List<BlockGenerator> = listOf(
         BlockGenerator(16, 40, 1 * golbalProbability,
             Material.DEEPSLATE_IRON_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
 
         BlockGenerator(-64, 80, 0.3 * golbalProbability,
             Material.DEEPSLATE_DIAMOND_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
 
         BlockGenerator(0, 32, 0.15 * golbalProbability,
             Material.DEEPSLATE_LAPIS_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
 
         BlockGenerator(96, 96, 1.7 * golbalProbability,
             Material.COAL_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
 
         BlockGenerator(-64, 32, 1 * golbalProbability,
             Material.DEEPSLATE_REDSTONE_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
 
         BlockGenerator(-16, 48, 0.3 * golbalProbability,
             Material.DEEPSLATE_GOLD_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
 
         BlockGenerator(48, 64, 1 * golbalProbability,
             Material.COPPER_ORE, Bukkit.getWorld("world")!!,
-            overWorldChunk.minX.toInt(), overWorldChunk.minZ.toInt(),
-            overWorldChunk.maxX.toInt(), overWorldChunk.maxZ.toInt(),
-            blockTypesToReplace),
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
+
+
+
+        BlockGenerator(32, 20, 0.05 * golbalProbability,
+            Material.WATER, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
+
+        BlockGenerator(-64, 10, 0.7 * golbalProbability,
+            Material.LAVA, Bukkit.getWorld("world")!!,
+            overWorldChunk.minX, overWorldChunk.minZ,
+            overWorldChunk.maxX, overWorldChunk.maxZ,
+            blockTypesToReplace, 1),
     )
 
 
@@ -268,8 +291,8 @@ class ChunkManager (
 
     fun onOverWorldFirstEnter() {
         // 청크 중앙 나무 생성
-        val generatingX = overWorldChunk.minX + 8
-        val generatingZ = overWorldChunk.minZ + 8
+        val generatingX = overWorldChunk.minX + 8.0
+        val generatingZ = overWorldChunk.minZ + 8.0
 
         val treeGeneratingLocation = Location(player!!.world,
             generatingX,
@@ -349,6 +372,15 @@ class ChunkManager (
         endermanSpawnerState.spawnRange = 4
 
         endermanSpawnerState.update()
+
+        // 플레이어 기본템 지금
+        player!!.inventory.addItem(
+            ItemStack(Material.OBSIDIAN, 30)
+        )
+
+        player!!.inventory.addItem(
+            ItemStack(Material.FLINT_AND_STEEL, 30)
+        )
     }
     fun onTheEndFirstEnter() {
         player!!.sendMessage("날파리 월드에 처음 왔구나! 이건 월드 첨 들어가면 처리하는 코드rjtltl 테스트 메세지임")
@@ -486,10 +518,16 @@ class ChunkManager (
 
         when (event.action) {
             Action.RIGHT_CLICK_BLOCK -> {
-                if (!isInChunk(event.clickedBlock!!.location)) { event.isCancelled = true }
+                if (!isInChunk(clickedBlock!!.x, clickedBlock.z, clickedBlock.world)) {
+//                    player!!.sendMessage("Action.RIGHT_CLICK_BLOCK 취소됨")
+                    event.isCancelled = true
+                }
             }
             Action.LEFT_CLICK_BLOCK -> {
-                if (!isInChunk(event.clickedBlock!!.location)) { event.isCancelled = true }
+                if (!isInChunk(clickedBlock!!.x, clickedBlock.z, clickedBlock.world)) {
+//                    player!!.sendMessage("Action.LEFT_CLICK_BLOCK 취소됨")
+                    event.isCancelled = true
+                }
             }
             Action.RIGHT_CLICK_AIR -> {
                 //
@@ -497,11 +535,8 @@ class ChunkManager (
             Action.LEFT_CLICK_AIR -> {
                 //
             }
-            Action.PHYSICAL -> {
-                if (!isInChunk(event.clickedBlock!!.location)) { event.isCancelled = true }
-            }
             else -> {
-                if (!isInChunk(event.clickedBlock!!.location)) { event.isCancelled = true }
+                //
             }
         }
 
@@ -536,14 +571,31 @@ class ChunkManager (
 
         return true
     }
+    fun isInChunk(x: Int, z: Int, world: World): Boolean {
+        // 플레이어가 위치하는 월드 기준으로 체크할 청크 가져오기
+        val currentCheckChunk: Chunk;
+        if (world.name == "world") { currentCheckChunk = overWorldChunk }
+        else if (world.name == "world_nether") { currentCheckChunk = netherWorldChunk }
+        else if (world.name == "world_the_end") { currentCheckChunk = theEndChunk }
+
+        else { throw Error("\"${playerName}\" 플레이어가 위치한 월드 \"${world.name}\" 은/는 지원되지 않습니다") }
+
+        // 청크 안에 있을경우
+        if (currentCheckChunk.minX <= x && x < currentCheckChunk.maxX &&
+            currentCheckChunk.minZ <= z && z < currentCheckChunk.maxZ) {
+            return true
+        }
+
+        return false
+    }
 
     fun toStringInfo(): String {
         return ""
     }
 
-    val Chunk.minX: Double get() = this.x * 16.0
-    val Chunk.maxX: Double get() = this.x * 16.0 + 16
+    val Chunk.minX: Int get() = this.x.toInt() * 16
+    val Chunk.maxX: Int get() = this.x.toInt() * 16 + 16
 
-    val Chunk.minZ: Double get() = this.z * 16.0
-    val Chunk.maxZ: Double get() = this.z * 16.0 + 16
+    val Chunk.minZ: Int get() = this.z.toInt() * 16
+    val Chunk.maxZ: Int get() = this.z.toInt() * 16 + 16
 }
