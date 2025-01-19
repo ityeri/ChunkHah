@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.Tag
+import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.inventory.ItemStack
 import java.util.*
 import kotlin.random.Random
@@ -82,7 +83,7 @@ class ChunkManager (
         Tag.DOORS
     )
 
-    val golbalProbability = 0.005
+    val golbalProbability = 0.002
 
 
     val blockTypesToReplace: List<Material> = listOf(
@@ -90,6 +91,7 @@ class ChunkManager (
         Material.DEEPSLATE, Material.COBBLED_DEEPSLATE,
 //        Material.LAVA, Material.WATER
     )
+
 //    val blockTypesToReplaceLiquid: List<Material> = listOf(
 //        Material.STONE, Material.COBBLESTONE,
 //        Material.DEEPSLATE, Material.COBBLED_DEEPSLATE
@@ -141,13 +143,13 @@ class ChunkManager (
 
 
 
-        BlockGenerator(32, 20, 0.05 * golbalProbability,
+        BlockGenerator(32, 20, 0.01 * golbalProbability,
             Material.WATER, Bukkit.getWorld("world")!!,
             overWorldChunk.minX, overWorldChunk.minZ,
             overWorldChunk.maxX, overWorldChunk.maxZ,
             blockTypesToReplace, 1),
 
-        BlockGenerator(-64, 10, 0.7 * golbalProbability,
+        BlockGenerator(-64, 10, 0.02 * golbalProbability,
             Material.LAVA, Bukkit.getWorld("world")!!,
             overWorldChunk.minX, overWorldChunk.minZ,
             overWorldChunk.maxX, overWorldChunk.maxZ,
@@ -379,7 +381,7 @@ class ChunkManager (
         )
 
         player!!.inventory.addItem(
-            ItemStack(Material.FLINT_AND_STEEL, 30)
+            ItemStack(Material.FLINT_AND_STEEL, 1)
         )
     }
     fun onTheEndFirstEnter() {
@@ -518,14 +520,12 @@ class ChunkManager (
 
         when (event.action) {
             Action.RIGHT_CLICK_BLOCK -> {
-                if (!isInChunk(clickedBlock!!.x, clickedBlock.z, clickedBlock.world)) {
-//                    player!!.sendMessage("Action.RIGHT_CLICK_BLOCK 취소됨")
-                    event.isCancelled = true
-                }
+//                if (!isInChunk(clickedBlock!!.x, clickedBlock.z, clickedBlock.world)) {
+//                    event.isCancelled = true
+//                }
             }
             Action.LEFT_CLICK_BLOCK -> {
                 if (!isInChunk(clickedBlock!!.x, clickedBlock.z, clickedBlock.world)) {
-//                    player!!.sendMessage("Action.LEFT_CLICK_BLOCK 취소됨")
                     event.isCancelled = true
                 }
             }
@@ -546,7 +546,13 @@ class ChunkManager (
     fun onPlayerInteractEntity(event: PlayerInteractEntityEvent) {
         if (event.player != player) { return }
         if (!isBind) { return }
-        if (!isInChunk(event.rightClicked.location)) { event.isCancelled = true }
+//        if (!isInChunk(event.rightClicked.location)) { event.isCancelled = true }
+    }
+
+    @EventHandler
+    fun onBlockPlace(event: BlockPlaceEvent) {
+        if (event.player != player) { return }
+        if (!isBind) { return }
     }
 
     fun setChunk(chunk: Chunk) {
