@@ -18,7 +18,7 @@ class ChunkHah : JavaPlugin() {
     override fun onEnable() {
 
         try {
-            chunkHandler.loadAriaDatas()
+            chunkHandler.loadAriaData()
         } catch (e: FileNotFoundException) {
             Bukkit.getLogger().warning("영역 데이터 파일을 찾을수 없습니다. 자동 할당을 사용합니다")
         } catch (e: ChunkHandler.WrongAriaDataException) {

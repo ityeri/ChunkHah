@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.FileNotFoundException
-import kotlin.math.floor
 
 class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler) {
 
@@ -59,7 +58,7 @@ class AriaControlCommand(val plugin: JavaPlugin, val chunkHandler: ChunkHandler)
         @Default
         fun onCommand(sender: CommandSender) {
             try {
-                chunkHandler.loadAriaDatas()
+                chunkHandler.loadAriaData()
             } catch (e: FileNotFoundException) {
                 sender.sendMessage("영역 데이터 파일을 찾을수 없습니다. 자동 할당을 사용합니다")
             } catch (e: ChunkHandler.WrongAriaDataException) {
