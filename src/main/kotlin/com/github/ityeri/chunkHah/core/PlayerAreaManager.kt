@@ -8,6 +8,14 @@ class PlayerAreaManager {
 
     private val playerAreaMap: MutableMap<UUID, Area> = mutableMapOf()
 
+    fun enable() {
+
+    }
+
+    fun disable() {
+
+    }
+
     fun getAllArea(): Map<UUID, Area> = playerAreaMap
 
     fun addArea(player: Player, area: Area) { playerAreaMap[player.uniqueId] = area }
