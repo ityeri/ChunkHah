@@ -4,7 +4,9 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.util.UUID
 
-class AreaManager {
+class AreaManager(
+    var areaWidth: Int, var areaDepth: Int
+) {
 
     private val playerAreaMap: MutableMap<UUID, Area> = mutableMapOf()
 
