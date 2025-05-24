@@ -16,9 +16,13 @@ class AreaManager(
 ) : Listener {
 
     private val playerAreaMap: MutableMap<UUID, Area> = mutableMapOf()
+    var isEnabled = false
     private var updateTaskId: Int? = null
 
     fun enable() {
+        if (isEnabled) { throw IllegalStateException() }
+        isEnabled = true
+
         Bukkit.getPluginManager().registerEvents(this, plugin)
 
         updateTaskId = Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
@@ -27,7 +31,8 @@ class AreaManager(
     }
 
     fun disable() {
-
+        if (!isEnabled) { throw IllegalStateException() }
+        isEnabled = false
 
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTask(updateTaskId!!)
