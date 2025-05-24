@@ -24,4 +24,9 @@ class Area(
             return Bukkit.getPlayer(playerUUID)
         }
 
+    fun whenPlayerOnline(block: (Player) -> Unit) {
+        if (isPlayerOnline) {
+            block(player!!)
+        }
+    }
 }
