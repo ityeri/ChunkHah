@@ -14,6 +14,11 @@ class Area(
         x: Int, z: Int):
             this(player.uniqueId, areaManager, x, z)
 
+    val width: Int
+        get() = areaManager.areaWidth
+    val depth: Int
+        get() = areaManager.areaDepth
+
     val isPlayerOnline: Boolean
         get() {
             return Bukkit.getPlayer(playerUUID) != null
