@@ -19,6 +19,16 @@ class Area(
     val depth: Int
         get() = areaManager.areaDepth
 
+    val minX: Int
+        get() = x * width
+    val maxX: Int
+        get() = (x + 1) * width
+
+    val minZ: Int
+        get() = z * depth
+    val maxZ: Int
+        get() = (z + 1) * depth
+
     val isPlayerOnline: Boolean
         get() {
             return Bukkit.getPlayer(playerUUID) != null
