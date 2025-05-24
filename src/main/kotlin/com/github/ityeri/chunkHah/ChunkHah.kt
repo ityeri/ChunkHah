@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class ChunkHah : JavaPlugin() {
 
-    val areaManager = AreaManager(8, 8)
+    val areaManager = AreaManager(this, 8, 8)
 
     override fun onEnable() {
         Bukkit.getLogger().info("청크핳")
