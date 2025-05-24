@@ -1,5 +1,6 @@
 package com.github.ityeri.chunkHah.core
 
+import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -16,7 +17,11 @@ class AreaManager(
     private val playerAreaMap: MutableMap<UUID, Area> = mutableMapOf()
 
     fun enable() {
+        Bukkit.getPluginManager().registerEvents(this, plugin)
 
+        Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
+            playerAreaMap.forEach { it.value.update() }
+        }, 0L, 1L)
     }
 
     fun disable() {
