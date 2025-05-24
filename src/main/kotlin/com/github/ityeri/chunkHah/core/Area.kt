@@ -19,6 +19,7 @@ class Area(
     val depth: Int
         get() = areaManager.areaDepth
 
+
     val minX: Int
         get() = x * width
     val maxX: Int
@@ -28,6 +29,7 @@ class Area(
         get() = z * depth
     val maxZ: Int
         get() = (z + 1) * depth
+
 
     val isPlayerOnline: Boolean
         get() {
@@ -44,4 +46,11 @@ class Area(
             block(player!!)
         }
     }
+
+
+
+    fun update() {
+        // TODO
+    }
+
 }
