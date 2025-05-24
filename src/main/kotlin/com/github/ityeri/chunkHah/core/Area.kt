@@ -5,26 +5,23 @@ import org.bukkit.entity.Player
 import java.util.UUID
 
 class Area(
-    var playerUUID: UUID?, val areaManager: AreaManager,
+    val playerUUID: UUID, val areaManager: AreaManager,
     var x: Int, var z: Int,
 ) {
 
     constructor(
-        player: Player?, areaManager: AreaManager,
+        player: Player, areaManager: AreaManager,
         x: Int, z: Int):
-            this(player?.uniqueId, areaManager, x, z)
+            this(player.uniqueId, areaManager, x, z)
 
-    val isOwned: Boolean get() = playerUUID != null
-
-    val isPlayerOnline: Boolean?
+    val isPlayerOnline: Boolean
         get() {
-            playerUUID?.let { return Bukkit.getPlayer(it) != null }
-            return null
+            return Bukkit.getPlayer(playerUUID) != null
         }
 
     val player: Player?
         get() {
-            playerUUID?.let { return Bukkit.getPlayer(playerUUID!!) }
-            return null
+            return Bukkit.getPlayer(playerUUID)
         }
+
 }
