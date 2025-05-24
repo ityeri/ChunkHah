@@ -5,7 +5,7 @@ plugins {
 
 tasks {
     jar {
-        destinationDirectory.set(file("D:\\mcServer\\1.21_1.21.1\\청크하 테스트\\plugins"))
+        destinationDirectory.set(file("server\\plugins"))
     }
 }
 
