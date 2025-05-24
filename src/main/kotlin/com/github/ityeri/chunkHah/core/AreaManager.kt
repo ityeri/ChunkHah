@@ -20,7 +20,7 @@ class AreaManager(
     private var updateTaskId: Int? = null
 
     fun enable() {
-        if (isEnabled) { throw IllegalStateException() }
+        if (isEnabled) { throw IllegalStateException("이미 활성화 되어 있습니다") }
         isEnabled = true
 
         Bukkit.getPluginManager().registerEvents(this, plugin)
@@ -31,7 +31,7 @@ class AreaManager(
     }
 
     fun disable() {
-        if (!isEnabled) { throw IllegalStateException() }
+        if (!isEnabled) { throw IllegalStateException("이미 비활성화 되어 있습니다") }
         isEnabled = false
 
         HandlerList.unregisterAll(this)
