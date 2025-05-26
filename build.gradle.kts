@@ -23,7 +23,8 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-//    compileOnly("org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
 
     // CommandFramework
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
