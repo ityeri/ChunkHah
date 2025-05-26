@@ -1,6 +1,7 @@
 package com.github.ityeri.chunkHah
 
 import com.github.ityeri.chunkHah.core.AreaManager
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -10,7 +11,7 @@ class ChunkHah : JavaPlugin() {
     val areaManager = AreaManager(this, 8, 8)
 
     override fun onEnable() {
-        Bukkit.getLogger().info("청크핳")
+        Bukkit.getServer().sendMessage(Component.text("청크핳"))
     }
 
     override fun onDisable() {
