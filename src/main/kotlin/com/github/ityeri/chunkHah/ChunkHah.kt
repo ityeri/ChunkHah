@@ -14,6 +14,8 @@ class ChunkHah : JavaPlugin() {
 
     override fun onEnable() {
         Bukkit.getServer().sendMessage(Component.text("청크핳"))
+        areaManager.enable()
+        userInterface.enable()
     }
 
     override fun onDisable() {
