@@ -4,12 +4,6 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-tasks {
-    jar {
-        destinationDirectory.set(file("server\\plugins"))
-    }
-}
-
 group = "com.github.ityeri"
 version = "1.0-SNAPSHOT"
 

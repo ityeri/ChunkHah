@@ -120,3 +120,5 @@ runs/
 
 # 서버 파일
 server/
+# 자동 빌드 스크립트 설정 파일
+_config.py
