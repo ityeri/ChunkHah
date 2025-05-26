@@ -40,6 +40,8 @@ while True:
 
     print("빌드 파일 전송 완료")
 
+    break
+
 # print("서버 명령 전송...")
 #
 # channel = client.invoke_shell()
