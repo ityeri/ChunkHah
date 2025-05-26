@@ -2,11 +2,12 @@ package com.github.ityeri.chunkHah.core
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import java.security.cert.TrustAnchor
 import java.util.UUID
 
 class Area(
     val playerUUID: UUID, val areaManager: AreaManager,
-    var x: Int, var z: Int,
+    var x: Int, var z: Int, var enabled: Boolean = true
 ) {
 
     constructor(
