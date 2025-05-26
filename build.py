@@ -20,21 +20,25 @@ import _config
 import paramiko
 import time
 
-print("빌드중...")
+while True:
 
-subprocess.run(["./gradlew", "jar"])
+    print("빌드중...")
 
-print("\nSSH 접속...")
+    subprocess.run(["./gradlew", "jar"])
 
-client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    print("\nSSH 접속...")
 
-client.connect(_config.SSH_ADDRESS, username=_config.SSH_USERNAME, password=_config.SSH_PASSWORD)
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-print("빌드 파일 전송...")
+    client.connect(_config.SSH_ADDRESS, username=_config.SSH_USERNAME, password=_config.SSH_PASSWORD)
 
-sftp = client.open_sftp()
-sftp.put(_config.COPY_PATH, _config.PASTE_PATH)
+    print("빌드 파일 전송...")
+
+    sftp = client.open_sftp()
+    sftp.put(_config.COPY_PATH, _config.PASTE_PATH)
+
+    print("빌드 파일 전송 완료")
 
 # print("서버 명령 전송...")
 #
