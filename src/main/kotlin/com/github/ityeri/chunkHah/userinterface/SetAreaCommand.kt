@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Default
 import com.github.ityeri.chunkHah.core.AreaManager
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 /*
 @CommandAlias("setchunk")
@@ -25,6 +26,11 @@ class SetAreaCommand(val areaManager: AreaManager) : BaseCommand() {
     @Default
     @CommandCompletion("@players")
     fun onCommand(sender: CommandSender, targetPlayerName: String) {
+        if (sender !is Player) {
+            sender.sendMessage("이 명령어는 플레이어만 사용 가능합니다")
+            return
+        }
+
         val targetPlayer = Bukkit.getPlayer(targetPlayerName)!!
     }
 }
