@@ -2,9 +2,12 @@ package com.github.ityeri.chunkHah.userinterface
 
 import co.aikar.commands.PaperCommandManager
 import com.github.ityeri.chunkHah.core.AreaManager
+import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
 
 class UserInterface(val areaManager: AreaManager) {
     fun enable() {
+        Bukkit.getServer().sendMessage(Component.text("명령어 등록됨"))
         val manager = PaperCommandManager(areaManager.plugin)
 
         manager.registerCommand(SetAreaCommand(areaManager))
