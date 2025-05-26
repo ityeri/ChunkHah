@@ -122,3 +122,6 @@ runs/
 server/
 # 자동 빌드 스크립트 설정 파일
 _config.py
+
+# 파이썬 캐시 파일
+__pycache__/
