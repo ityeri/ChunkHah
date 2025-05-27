@@ -55,11 +55,35 @@ class Area(
 
 
     fun update() {
-        playerPositionCheck()
+        if (isPlayerOnline) {
+            playerPositionCheck()
+        }
     }
 
     fun playerPositionCheck() {
+        // x- x+ z- z+
 
+        val newLocation = player!!.location.clone()
+        val newVelocity = player!!.velocity
+
+        // 플레이어가 이동할 좌표 계산
+        if (player!!.x < minX) {
+            newLocation.x = minX + areaManager!!.areaInnerBlank
+            newVelocity.x = areaManager!!.repulsiveForce
+        }
+        else if (maxX < player!!.x) {
+            newLocation.x = maxX - areaManager!!.areaInnerBlank
+            newVelocity.x = -areaManager!!.repulsiveForce
+        }
+
+        if (player!!.z < minZ) {
+            newLocation.z = minZ + areaManager!!.areaInnerBlank
+            newVelocity.z = areaManager!!.repulsiveForce
+        }
+        else if (maxZ < player!!.z) {
+            newLocation.z = maxZ - areaManager!!.areaInnerBlank
+            newVelocity.z = -areaManager!!.repulsiveForce
+        }
     }
 
 }
