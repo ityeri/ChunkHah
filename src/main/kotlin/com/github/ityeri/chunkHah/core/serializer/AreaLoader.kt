@@ -2,10 +2,13 @@ package com.github.ityeri.chunkHah.core.serializer
 
 import com.github.ityeri.chunkHah.core.AreaManager
 import kotlinx.serialization.json.*
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.world.WorldSaveEvent
 import java.io.File
 import java.io.FileNotFoundException
 
-class AreaLoader(val areaManager: AreaManager) {
+class AreaLoader(val areaManager: AreaManager) : Listener {
     fun save() {
 
         val serializedAreas = buildJsonArray {
@@ -52,5 +55,10 @@ class AreaLoader(val areaManager: AreaManager) {
         data["areas"]!!.jsonArray.forEach {
             areaManager.addArea(Json.decodeFromJsonElement(AreaSerializer, it))
         }
+    }
+
+    @EventHandler
+    fun onWorldSave(event: WorldSaveEvent) {
+        save()
     }
 }
