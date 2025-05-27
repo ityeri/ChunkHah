@@ -7,14 +7,9 @@ import java.io.File
 class AreaLoader(val areaManager: AreaManager) {
     fun save() {
 
-        val json = Json {
-            prettyPrint = true
-            prettyPrintIndent = "    "
-        }
-
         val serializedAreas = buildJsonArray {
             for (area in areaManager.getAllArea()) {
-                add(json.encodeToString(AreaSerializer, area))
+                add(Json.encodeToJsonElement(AreaSerializer, area))
             }
         }
 
@@ -30,6 +25,11 @@ class AreaLoader(val areaManager: AreaManager) {
 
         if (!file.exists()) {
             file.createNewFile()
+        }
+
+        val json = Json {
+            prettyPrint = true
+            prettyPrintIndent = "    "
         }
 
         file.writeText(json.encodeToString(JsonObject.serializer(), data))
