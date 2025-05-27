@@ -26,6 +26,8 @@ object AreaSerializer : KSerializer<Area> {
 
         composite.encodeIntElement(descriptor, 2, value.x)
         composite.encodeIntElement(descriptor, 3, value.z)
+
+        composite.endStructure(descriptor)
     }
 
     override fun deserialize(decoder: Decoder): Area {
@@ -47,6 +49,8 @@ object AreaSerializer : KSerializer<Area> {
                 CompositeDecoder.DECODE_DONE -> break
             }
         }
+
+        composite.endStructure(descriptor)
 
         return Area(playerUUID, x, z, enabled)
     }
