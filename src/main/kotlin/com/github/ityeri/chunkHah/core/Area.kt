@@ -52,6 +52,20 @@ class Area(
         }
     }
 
+    fun enable() {
+        if (enabled) {
+            throw IllegalStateException("이미 활성화 되어 있습니다")
+        }
+        enabled = true
+    }
+
+    fun disable() {
+        if (!enabled) {
+            throw IllegalStateException("이미 비활성화 되어 있습니다")
+        }
+        enabled = false
+    }
+
 
 
     fun update() {
