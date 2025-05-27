@@ -6,7 +6,7 @@ import java.security.cert.TrustAnchor
 import java.util.UUID
 
 class Area(
-    val playerUUID: UUID, val areaManager: AreaManager,
+    val playerUUID: UUID, var areaManager: AreaManager?,
     var x: Int, var z: Int, var enabled: Boolean = true
 ) {
 
@@ -15,10 +15,14 @@ class Area(
         x: Int, z: Int):
             this(player.uniqueId, areaManager, x, z)
 
+    constructor(
+        playerUUID: UUID, x: Int, z: Int, enabled: Boolean = true
+    ): this(playerUUID, null, x, z, enabled)
+
     val width: Int
-        get() = areaManager.areaWidth
+        get() = areaManager!!.areaWidth
     val depth: Int
-        get() = areaManager.areaDepth
+        get() = areaManager!!.areaDepth
 
 
     val minX: Int
