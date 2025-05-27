@@ -19,6 +19,7 @@ class ChunkHah : JavaPlugin() {
     }
 
     override fun onDisable() {
+        areaManager.disable()
 
     }
 }
