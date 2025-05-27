@@ -25,6 +25,13 @@ class AreaLoader(val areaManager: AreaManager) {
         }
 
         val file = File(areaManager.plugin.dataFolder, "area_data.json")
+
+        file.parentFile?.mkdirs()
+
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+
         file.writeText(json.encodeToString(JsonObject.serializer(), data))
     }
 }
