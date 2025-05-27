@@ -43,7 +43,14 @@ class AreaManager(
 
     fun getAllArea(): List<Area> = playerAreaMap.values.toList()
 
-    fun addArea(area: Area) { playerAreaMap[area.playerUUID] = area }
+    fun removeAllArea() {
+        playerAreaMap.clear()
+    }
+
+    fun addArea(area: Area) {
+        area.areaManager = this
+        playerAreaMap[area.playerUUID] = area }
+
     fun getArea(player: OfflinePlayer): Area? = playerAreaMap[player.uniqueId]
 
 
