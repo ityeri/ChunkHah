@@ -12,6 +12,8 @@ class UserInterface(val areaManager: AreaManager) {
         manager.registerCommand(SaveAreaCommand(areaManager))
         manager.registerCommand(LoadAreaCommand(areaManager))
 
+        manager.registerCommand(AreaListCommand(areaManager))
+
         manager.registerCommand(SetAreaCommand(areaManager))
 
     }
