@@ -10,7 +10,7 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import net.kyori.adventure.util.Services.Fallback
 import java.util.*
 
-class AreaSerializer : KSerializer<Area> {
+object AreaSerializer : KSerializer<Area> {
     override val descriptor: SerialDescriptor =
         buildClassSerialDescriptor("Area") {
             element<String>("playerUUID")
