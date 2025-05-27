@@ -137,7 +137,7 @@ class Area(
 
         val respawnY = event.respawnLocation.world.getHighestBlockAt(
             respawnX.toInt(), respawnZ.toInt()
-        ).y + 0.5
+        ).y + 1.5
 
         event.respawnLocation = Location(event.respawnLocation.world,
             respawnX, respawnY, respawnZ
