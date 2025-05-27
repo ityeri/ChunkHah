@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import java.util.UUID
 import kotlin.random.Random
@@ -131,6 +132,8 @@ class Area(
 
     @EventHandler
     fun onPlayerRespawn(event: PlayerRespawnEvent) {
+        if (event.player.uniqueId != playerUUID) { return }
+        if (event.isBedSpawn || event.isAnchorSpawn) { return }
 
         val respawnX = Random.nextInt(minX, maxX) + 0.5
         val respawnZ = Random.nextInt(minX, maxX) + 0.5
