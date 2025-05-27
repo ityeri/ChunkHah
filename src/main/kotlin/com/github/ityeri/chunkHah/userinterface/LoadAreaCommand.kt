@@ -14,6 +14,6 @@ class LoadAreaCommand(val areaManager: AreaManager) : BaseCommand() {
     @Default
     fun onCommand(sender: CommandSender) {
         areaManager.areaLoader.load()
-        sender.sendMessage("모든 영엳 데이터를 불러왔습니다")
+        sender.sendMessage("모든 영역 데이터를 불러왔습니다")
     }
 }
