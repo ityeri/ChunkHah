@@ -45,15 +45,6 @@ tasks.shadowJar {
     relocate("co.aikar.locales", "me.it.chunkHah.locales")
 }
 
-tasks.processResources {
-    val props = mapOf("version" to version)
-    inputs.properties(props)
-    filteringCharset = "UTF-8"
-    filesMatching("plugin.yml") {
-        expand(props)
-    }
-}
-
 tasks.jar {
     manifest {
         attributes["Implementation-Version"] = version
