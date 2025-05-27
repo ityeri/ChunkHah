@@ -44,12 +44,12 @@ class AreaLoader(val areaManager: AreaManager) {
 
         val data = Json.parseToJsonElement(file.readText()) as JsonObject
 
-        areaManager.areaWidth = data["width"]!!.jsonPrimitive.int
-        areaManager.areaDepth = data["depth"]!!.jsonPrimitive.int
+        areaManager.areaWidth = data["areaWidth"]!!.jsonPrimitive.int
+        areaManager.areaDepth = data["areaDepth"]!!.jsonPrimitive.int
 
         areaManager.removeAllArea()
 
-        data["areas"]!!.jsonPrimitive.jsonArray.forEach {
+        data["areas"]!!.jsonArray.forEach {
             areaManager.addArea(Json.decodeFromJsonElement(AreaSerializer, it))
         }
     }
