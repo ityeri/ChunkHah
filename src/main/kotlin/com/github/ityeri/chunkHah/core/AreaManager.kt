@@ -29,6 +29,8 @@ class AreaManager(
         if (isEnabled) { throw IllegalStateException("이미 활성화 되어 있습니다") }
         isEnabled = true
 
+        areaLoader.load()
+
         Bukkit.getPluginManager().registerEvents(this, plugin)
 
         updateTaskId = Bukkit.getScheduler().runTaskTimer(plugin, Runnable {
@@ -42,6 +44,8 @@ class AreaManager(
 
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTask(updateTaskId!!)
+
+        areaLoader.save()
     }
 
     fun getAllArea(): List<Area> = playerAreaMap.values.toList()
