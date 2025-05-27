@@ -2,12 +2,17 @@ package com.github.ityeri.chunkHah.core
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.HandlerList
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerRespawnEvent
 import java.util.UUID
+import kotlin.random.Random
 
 class Area(
     val playerUUID: UUID, var areaManager: AreaManager?,
     var x: Int, var z: Int, var isBind: Boolean = true
-) {
+) : Listener {
 
     constructor(
         player: Player, areaManager: AreaManager,
@@ -58,6 +63,8 @@ class Area(
             throw IllegalStateException("이미 활성화 되어 있습니다")
         }
         isEnabled = true
+
+        Bukkit.getPluginManager().registerEvents(this, areaManager!!.plugin)
     }
 
     fun disable() {
@@ -65,6 +72,8 @@ class Area(
             throw IllegalStateException("이미 비활성화 되어 있습니다")
         }
         isEnabled = false
+
+        HandlerList.unregisterAll(this)
     }
 
 
@@ -114,6 +123,19 @@ class Area(
             player!!.teleport(newLocation)
             player!!.velocity = newVelocity
         }
+    }
+
+
+
+    @EventHandler
+    fun onPlayerRespawn(event: PlayerRespawnEvent) {
+
+        event.respawnLocation.x = Random.nextInt(minX, maxX) + 0.5
+        event.respawnLocation.z = Random.nextInt(minZ, maxZ) + 0.5
+
+        event.respawnLocation.y = event.respawnLocation.world.getHighestBlockAt(
+            event.respawnLocation.x.toInt(), event.respawnLocation.z.toInt()
+        ).y + 0.5
     }
 
 }
