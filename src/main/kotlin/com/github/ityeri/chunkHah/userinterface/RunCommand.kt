@@ -26,6 +26,7 @@ class RunCommand(val areaManager: AreaManager) : BaseCommand() {
             val result = engine.eval(code)
             if (result == null) {
                 sender.sendMessage("코드의 실행 결과가 없습니다!")
+                return
             }
             sender.sendMessage(result.toString())
         } catch (e: ScriptException) {
