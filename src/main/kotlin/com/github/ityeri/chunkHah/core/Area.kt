@@ -1,6 +1,8 @@
 package com.github.ityeri.chunkHah.core
 
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
@@ -130,12 +132,16 @@ class Area(
     @EventHandler
     fun onPlayerRespawn(event: PlayerRespawnEvent) {
 
-        event.respawnLocation.x = Random.nextInt(minX, maxX) + 0.5
-        event.respawnLocation.z = Random.nextInt(minZ, maxZ) + 0.5
+        val respawnX = Random.nextInt(minX, maxX) + 0.5
+        val respawnZ = Random.nextInt(minX, maxX) + 0.5
 
-        event.respawnLocation.y = event.respawnLocation.world.getHighestBlockAt(
-            event.respawnLocation.x.toInt(), event.respawnLocation.z.toInt()
+        val respawnY = event.respawnLocation.world.getHighestBlockAt(
+            respawnX.toInt(), respawnZ.toInt()
         ).y + 0.5
+
+        event.respawnLocation = Location(event.respawnLocation.world,
+            respawnX, respawnY, respawnZ
+        )
     }
 
 }
