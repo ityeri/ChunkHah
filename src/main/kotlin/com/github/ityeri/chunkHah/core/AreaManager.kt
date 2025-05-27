@@ -59,7 +59,13 @@ class AreaManager(
 
     fun addArea(area: Area) {
         area.areaManager = this
-        playerAreaMap[area.playerUUID] = area }
+
+        if (!area.isEnabled) {
+            area.enable()
+        }
+
+        playerAreaMap[area.playerUUID] = area
+    }
 
     fun getArea(player: OfflinePlayer): Area? = playerAreaMap[player.uniqueId]
 
