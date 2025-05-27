@@ -2,12 +2,11 @@ package com.github.ityeri.chunkHah.core
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.security.cert.TrustAnchor
 import java.util.UUID
 
 class Area(
     val playerUUID: UUID, var areaManager: AreaManager?,
-    var x: Int, var z: Int, var enabled: Boolean = true
+    var x: Int, var z: Int, var isBind: Boolean = true
 ) {
 
     constructor(
@@ -16,8 +15,10 @@ class Area(
             this(player.uniqueId, areaManager, x, z)
 
     constructor(
-        playerUUID: UUID, x: Int, z: Int, enabled: Boolean = true
-    ): this(playerUUID, null, x, z, enabled)
+        playerUUID: UUID, x: Int, z: Int, isBind: Boolean = true
+    ): this(playerUUID, null, x, z, isBind)
+
+    var enabled: Boolean = false
 
     val width: Int
         get() = areaManager!!.areaWidth
@@ -69,7 +70,7 @@ class Area(
 
 
     fun update() {
-        if (!enabled) { return }
+        if (!isBind) { return }
         if (isPlayerOnline) {
             playerPositionCheck()
         }
