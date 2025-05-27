@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.2.0-RC"
+    kotlin("jvm") version "2.1.0"
     id("com.gradleup.shadow") version "8.3.0"
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
@@ -25,7 +25,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("org.openjdk.nashorn:nashorn-core:15.4")
-
 
     // CommandFramework
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
@@ -72,13 +71,4 @@ tasks.jar {
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
 
-}
-
-tasks.processResources {
-    val props = mapOf("version" to version)
-    inputs.properties(props)
-    filteringCharset = "UTF-8"
-    filesMatching("plugin.yml") {
-        expand(props)
-    }
 }
