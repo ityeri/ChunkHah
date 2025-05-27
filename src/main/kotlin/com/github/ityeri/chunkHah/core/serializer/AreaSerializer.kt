@@ -13,7 +13,7 @@ object AreaSerializer : KSerializer<Area> {
     override val descriptor: SerialDescriptor =
         buildClassSerialDescriptor("Area") {
             element<String>("playerUUID")
-            element<Boolean>("enabled")
+            element<Boolean>("isBind")
             element<Int>("x")
             element<Int>("z")
         }
