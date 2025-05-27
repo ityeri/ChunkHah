@@ -84,6 +84,9 @@ class Area(
             newLocation.z = maxZ - areaManager!!.areaInnerBlank
             newVelocity.z = -areaManager!!.repulsiveForce
         }
+
+        player!!.teleport(newLocation)
+        player!!.velocity = newVelocity
     }
 
 }
