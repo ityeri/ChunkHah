@@ -55,6 +55,7 @@ class Area(
 
 
     fun update() {
+        if (!enabled) { return }
         if (isPlayerOnline) {
             playerPositionCheck()
         }
