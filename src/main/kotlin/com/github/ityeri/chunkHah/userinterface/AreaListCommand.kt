@@ -22,7 +22,7 @@ class AreaListCommand(val areaManager: AreaManager) : BaseCommand() {
             sender.sendMessage(" |  ")
             sender.sendMessage(" |  플레이어: ${Bukkit.getOfflinePlayer(area.playerUUID).name}")
             sender.sendMessage(" |  위치: [${area.x}, ${area.z}]")
-            sender.sendMessage(" |  제약 활성화 여부: ${area.enabled}")
+            sender.sendMessage(" |  제약 활성화 여부: ${area.isEnabled}")
         }
     }
 }

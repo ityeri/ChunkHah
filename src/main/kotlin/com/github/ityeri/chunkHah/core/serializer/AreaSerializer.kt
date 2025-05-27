@@ -7,7 +7,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.CompositeDecoder
-import net.kyori.adventure.util.Services.Fallback
 import java.util.*
 
 object AreaSerializer : KSerializer<Area> {
@@ -22,7 +21,7 @@ object AreaSerializer : KSerializer<Area> {
     override fun serialize(encoder: Encoder, value: Area) {
         val composite = encoder.beginStructure(descriptor)
         composite.encodeStringElement(descriptor, 0, value.playerUUID.toString())
-        composite.encodeBooleanElement(descriptor, 1, value.enabled)
+        composite.encodeBooleanElement(descriptor, 1, value.isEnabled)
 
         composite.encodeIntElement(descriptor, 2, value.x)
         composite.encodeIntElement(descriptor, 3, value.z)

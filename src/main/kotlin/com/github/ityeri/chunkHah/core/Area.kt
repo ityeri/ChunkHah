@@ -18,7 +18,7 @@ class Area(
         playerUUID: UUID, x: Int, z: Int, isBind: Boolean = true
     ): this(playerUUID, null, x, z, isBind)
 
-    var enabled: Boolean = false
+    var isEnabled: Boolean = false
 
     val width: Int
         get() = areaManager!!.areaWidth
@@ -54,17 +54,17 @@ class Area(
     }
 
     fun enable() {
-        if (enabled) {
+        if (isEnabled) {
             throw IllegalStateException("이미 활성화 되어 있습니다")
         }
-        enabled = true
+        isEnabled = true
     }
 
     fun disable() {
-        if (!enabled) {
+        if (!isEnabled) {
             throw IllegalStateException("이미 비활성화 되어 있습니다")
         }
-        enabled = false
+        isEnabled = false
     }
 
 
