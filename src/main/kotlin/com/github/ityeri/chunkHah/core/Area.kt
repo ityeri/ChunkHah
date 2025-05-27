@@ -55,7 +55,11 @@ class Area(
 
 
     fun update() {
-        // TODO
+        playerPositionCheck()
+    }
+
+    fun playerPositionCheck() {
+
     }
 
 }
