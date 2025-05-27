@@ -38,7 +38,7 @@ class AreaManager(
         Bukkit.getScheduler().cancelTask(updateTaskId!!)
     }
 
-    fun getAllArea(): Map<UUID, Area> = playerAreaMap
+    fun getAllArea(): List<Area> = playerAreaMap.values.toList()
 
     fun addArea(area: Area) { playerAreaMap[area.playerUUID] = area }
     fun getArea(player: OfflinePlayer): Area? = playerAreaMap[player.uniqueId]
