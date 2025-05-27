@@ -17,8 +17,6 @@ class RunCommand(val areaManager: AreaManager) : BaseCommand() {
 
     init {
         engine.put("manager", areaManager)
-        engine.put("true", true)
-        engine.put("false", false)
     }
 
     @Default
