@@ -66,27 +66,38 @@ class Area(
         val newLocation = player!!.location.clone()
         val newVelocity = player!!.velocity
 
+        var isChecked = false
+
         // 플레이어가 이동할 좌표 계산
         if (player!!.x < minX) {
             newLocation.x = minX + areaManager!!.areaInnerBlank
             newVelocity.x = areaManager!!.repulsiveForce
+            isChecked = true
         }
         else if (maxX < player!!.x) {
             newLocation.x = maxX - areaManager!!.areaInnerBlank
             newVelocity.x = -areaManager!!.repulsiveForce
+            isChecked = true
+
         }
 
         if (player!!.z < minZ) {
             newLocation.z = minZ + areaManager!!.areaInnerBlank
             newVelocity.z = areaManager!!.repulsiveForce
+            isChecked = true
+
         }
         else if (maxZ < player!!.z) {
             newLocation.z = maxZ - areaManager!!.areaInnerBlank
             newVelocity.z = -areaManager!!.repulsiveForce
+            isChecked = true
+
         }
 
-        player!!.teleport(newLocation)
-        player!!.velocity = newVelocity
+        if (isChecked) {
+            player!!.teleport(newLocation)
+            player!!.velocity = newVelocity
+        }
     }
 
 }
