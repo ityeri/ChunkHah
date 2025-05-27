@@ -1,5 +1,6 @@
 package com.github.ityeri.chunkHah.core
 
+import com.github.ityeri.chunkHah.core.serializer.AreaLoader
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -18,6 +19,8 @@ class AreaManager(
     private val playerAreaMap: MutableMap<UUID, Area> = mutableMapOf()
     var isEnabled = false
     private var updateTaskId: Int? = null
+
+    val areaLoader = AreaLoader(this)
 
     fun enable() {
         if (isEnabled) { throw IllegalStateException("이미 활성화 되어 있습니다") }
