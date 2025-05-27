@@ -9,8 +9,10 @@ class UserInterface(val areaManager: AreaManager) {
     fun enable() {
         val manager = PaperCommandManager(areaManager.plugin)
 
-        manager.registerCommand(SetAreaCommand(areaManager))
         manager.registerCommand(SaveAreaCommand(areaManager))
+        manager.registerCommand(LoadAreaCommand(areaManager))
+
+        manager.registerCommand(SetAreaCommand(areaManager))
 
     }
 }
