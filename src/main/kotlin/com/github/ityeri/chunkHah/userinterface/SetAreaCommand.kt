@@ -27,7 +27,10 @@ class SetAreaCommand(val areaManager: AreaManager) : BaseCommand() {
         val areaX = (sender.x / areaManager.areaWidth).toInt()
         val areaZ = (sender.z / areaManager.areaDepth).toInt()
 
-        val targetPlayer = Bukkit.getPlayer(targetPlayerName)!!
+        val targetPlayer = Bukkit.getPlayer(targetPlayerName) ?: run {
+            sender.sendMessage("해당 플레이어는 존재하지 않습니다")
+            return
+        }
 
         var area = areaManager.getArea(targetPlayer)
 
