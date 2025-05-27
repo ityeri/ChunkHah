@@ -22,6 +22,9 @@ class AreaManager(
 
     val areaLoader = AreaLoader(this)
 
+    var areaInnerBlank = 0.01
+    var repulsiveForce = 0.1
+
     fun enable() {
         if (isEnabled) { throw IllegalStateException("이미 활성화 되어 있습니다") }
         isEnabled = true
