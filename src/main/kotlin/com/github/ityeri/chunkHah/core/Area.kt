@@ -153,7 +153,15 @@ class Area(
 
     @EventHandler
     fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
+        val fromWorld = event.from
+        val toWorld = event.player.world
 
+        // 오버 -> 네더
+        if (fromWorld.environment == World.Environment.NORMAL &&
+            toWorld.environment == World.Environment.NETHER) {
+
+
+        }
     }
 
 }
