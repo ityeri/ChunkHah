@@ -148,6 +148,7 @@ class Area(
         )
     }
 
+    /*
     @EventHandler
     fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
 
@@ -169,6 +170,7 @@ class Area(
 
         }
     }
+     */
 
 }
 
