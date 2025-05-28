@@ -156,7 +156,7 @@ class Area(
         if (event.player != player) { return }
 
         val fromWorld = event.from
-        val toWorld = event.player.world
+        val toWorld = player.world
 
         // 오버 -> 네더
         if (fromWorld.environment == World.Environment.NORMAL &&
@@ -168,7 +168,9 @@ class Area(
 
             toWorld.buildGlassCase(spawnBlockX, spawnBlockY, spawnBlockZ)
 
-
+            player!!.teleport(Location(
+                player!!.world, spawnBlockX + 0.5, spawnBlockY + 0.5, spawnBlockZ + 0.5)
+            )
         }
     }
 
