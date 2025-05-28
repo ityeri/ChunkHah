@@ -3,10 +3,7 @@
 package com.github.ityeri.chunkHah.core
 
 import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.World
-import org.bukkit.WorldType
+import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
@@ -153,6 +150,9 @@ class Area(
 
     @EventHandler
     fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
+
+        if (event.player != player) { return }
+
         val fromWorld = event.from
         val toWorld = event.player.world
 
@@ -160,8 +160,36 @@ class Area(
         if (fromWorld.environment == World.Environment.NORMAL &&
             toWorld.environment == World.Environment.NETHER) {
 
+            val spawnBlockX = Random.nextInt(minX, maxX)
+            val spawnBlockY = Random.nextInt(1, 120)
+            val spawnBlockZ = Random.nextInt(minZ, maxZ)
+
+            toWorld.buildGlassCase(spawnBlockX, spawnBlockY, spawnBlockZ)
+
 
         }
     }
+
+}
+
+
+
+fun World.buildGlassCase(x: Int, y: Int, z: Int) {
+    getBlockAt(x, y + 2, z).type = Material.GLASS
+
+    getBlockAt(x - 1, y, z).type = Material.GLASS
+    getBlockAt(x + 1, y, z).type = Material.GLASS
+    getBlockAt(x, y, z - 1).type = Material.GLASS
+    getBlockAt(x, y, z + 1).type = Material.GLASS
+
+    getBlockAt(x - 1, y + 1, z).type = Material.GLASS
+    getBlockAt(x + 1, y + 1, z).type = Material.GLASS
+    getBlockAt(x, y + 1, z - 1).type = Material.GLASS
+    getBlockAt(x, y + 1, z + 1).type = Material.GLASS
+
+    getBlockAt(x, y - 1, z).type = Material.GLASS
+
+    getBlockAt(x, y, z).type = Material.AIR
+    getBlockAt(x, y + 1, z).type = Material.AIR
 
 }
