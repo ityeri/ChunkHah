@@ -1,8 +1,12 @@
+
+
 package com.github.ityeri.chunkHah.core
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.World
+import org.bukkit.WorldType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
@@ -145,6 +149,11 @@ class Area(
         event.respawnLocation = Location(event.respawnLocation.world,
             respawnX, respawnY, respawnZ
         )
+    }
+
+    @EventHandler
+    fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
+
     }
 
 }
