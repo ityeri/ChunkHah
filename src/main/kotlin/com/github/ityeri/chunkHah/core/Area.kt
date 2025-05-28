@@ -10,6 +10,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerRespawnEvent
+import org.bukkit.event.world.PortalCreateEvent
 import java.util.UUID
 import kotlin.random.Random
 
@@ -168,6 +169,11 @@ class Area(
 
 
         }
+    }
+
+    @EventHandler
+    fun onPortalCreate(event: PortalCreateEvent) {
+
     }
 
 }
