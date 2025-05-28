@@ -156,7 +156,7 @@ class Area(
         if (event.player != player) { return }
 
         val fromWorld = event.from
-        val toWorld = player.world
+        val toWorld = player!!.world
 
         // 오버 -> 네더
         if (fromWorld.environment == World.Environment.NORMAL &&
