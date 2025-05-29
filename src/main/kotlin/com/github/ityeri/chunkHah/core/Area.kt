@@ -206,6 +206,8 @@ class Area(
                 }
             }
 
+            // TODO isEmptySpacdFound 가 false 일 경우에 대한 처리 추가
+
             player!!.teleport(
                 Location(
                     player!!.world,
