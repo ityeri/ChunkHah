@@ -57,6 +57,8 @@ class Area(
             return Bukkit.getPlayer(playerUUID)
         }
 
+    val worldChangeHandler = WorldChangeHandler(this)
+
     fun whenPlayerOnline(block: (Player) -> Unit) {
         if (isPlayerOnline) {
             block(player!!)
@@ -70,6 +72,7 @@ class Area(
         isEnabled = true
 
         Bukkit.getPluginManager().registerEvents(this, areaManager!!.plugin)
+        Bukkit.getPluginManager().registerEvents(worldChangeHandler, areaManager!!.plugin)
     }
 
     fun disable() {
@@ -79,6 +82,7 @@ class Area(
         isEnabled = false
 
         HandlerList.unregisterAll(this)
+        HandlerList.unregisterAll(worldChangeHandler)
     }
 
 
