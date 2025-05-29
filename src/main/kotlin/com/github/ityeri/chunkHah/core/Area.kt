@@ -2,7 +2,6 @@
 
 package com.github.ityeri.chunkHah.core
 
-import net.kyori.adventure.text.Component
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -162,6 +161,59 @@ class Area(
         if (fromWorld.environment == World.Environment.NORMAL &&
             toWorld.environment == World.Environment.NETHER) {
 
+            val xCheckingOrder = (minX until maxX).shuffled()
+            val yCheckingOrder = (1 until 120).shuffled()
+            val zCheckingOrder = (minZ until maxZ).shuffled()
+
+            var isEmptySpaceFound = false
+
+            var spawnBlockX = Int.MIN_VALUE
+            var spawnBlockY = Int.MIN_VALUE
+            var spawnBlockZ = Int.MIN_VALUE
+
+            findEmptySpace@ for (currentCheckingY in yCheckingOrder) {
+                for (currentCheckingZ in zCheckingOrder) {
+                    for (currentCheckingX in xCheckingOrder) {
+                        val groundBlock = player!!.world.getBlockAt(
+                            currentCheckingX,
+                            currentCheckingY -1,
+                            currentCheckingZ)
+
+                        val lowerPlayerCollisionBlock = player!!.world.getBlockAt(
+                            currentCheckingX,
+                            currentCheckingY,
+                            currentCheckingZ)
+
+                        val upperPlayerCollisionBlock = player!!.world.getBlockAt(
+                            currentCheckingX,
+                            currentCheckingY + 1,
+                            currentCheckingZ)
+
+                        if (groundBlock.isSolid &&
+                            lowerPlayerCollisionBlock.isEmpty &&
+                            upperPlayerCollisionBlock.isEmpty) {
+
+                            spawnBlockX = currentCheckingX
+                            spawnBlockY = currentCheckingY
+                            spawnBlockZ = currentCheckingZ
+
+                            isEmptySpaceFound = true
+
+                            break@findEmptySpace
+
+                        }
+                    }
+                }
+            }
+
+            player!!.teleport(
+                Location(
+                    player!!.world,
+                    spawnBlockX + 0.5,
+                    spawnBlockY + 0.5,
+                    spawnBlockZ + 0.5
+                )
+            )
 
         }
     }
