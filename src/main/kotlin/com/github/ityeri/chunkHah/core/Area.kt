@@ -172,13 +172,11 @@ class Area(
                     currentCheckingBlockY - 1,
                     currentCheckingBlockZ
                 )
-
                 val lowerBlock = toWorld.getBlockAt(
                     currentCheckingBlockX,
                     currentCheckingBlockY,
                     currentCheckingBlockZ
                 )
-
                 val upperBlock = toWorld.getBlockAt(
                     currentCheckingBlockX,
                     currentCheckingBlockY + 1,
@@ -202,7 +200,7 @@ class Area(
                 }
             }
 
-            // TODO isEmptySpacdFound 가 false 일 경우에 대한 처리 추가
+            // TODO 빈공간이 없어서 무한 루프에 갇힐경우 로직 추가
 
 
         }
