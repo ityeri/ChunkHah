@@ -162,15 +162,7 @@ class Area(
         if (fromWorld.environment == World.Environment.NORMAL &&
             toWorld.environment == World.Environment.NETHER) {
 
-            val spawnBlockX = Random.nextInt(minX, maxX)
-            val spawnBlockY = Random.nextInt(1, 120)
-            val spawnBlockZ = Random.nextInt(minZ, maxZ)
 
-            toWorld.buildGlassCase(spawnBlockX, spawnBlockY, spawnBlockZ)
-
-            player!!.teleport(Location(
-                player!!.world, spawnBlockX + 0.5, spawnBlockY + 0.5, spawnBlockZ + 0.5)
-            )
         }
     }
 
