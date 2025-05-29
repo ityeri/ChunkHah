@@ -134,25 +134,6 @@ class Area(
         }
     }
 
-
-
-    @EventHandler
-    fun onPlayerRespawn(event: PlayerRespawnEvent) {
-        if (event.player.uniqueId != playerUUID) { return }
-        if (event.isBedSpawn || event.isAnchorSpawn) { return }
-
-        val respawnX = Random.nextInt(minX, maxX) + 0.5
-        val respawnZ = Random.nextInt(minX, maxX) + 0.5
-
-        val respawnY = event.respawnLocation.world.getHighestBlockAt(
-            respawnX.toInt(), respawnZ.toInt()
-        ).y + 1.5
-
-        event.respawnLocation = Location(event.respawnLocation.world,
-            respawnX, respawnY, respawnZ
-        )
-    }
-
 }
 
 
