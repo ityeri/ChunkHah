@@ -2,6 +2,7 @@
 
 package com.github.ityeri.chunkHah.core
 
+import net.kyori.adventure.text.Component
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -227,12 +228,14 @@ class Area(
             val spawnBlockZ = Random.nextInt(minZ, maxZ)
             val spawnBlockY = toWorld.getHighestBlockAt(spawnBlockX, spawnBlockZ).y + 1
 
-            player!!.teleport(Location(
-                toWorld,
-                spawnBlockX + 0.5,
-                spawnBlockY + 0.5,
-                spawnBlockZ + 0.5
-            ))
+            Bukkit.getScheduler().runTaskLater(areaManager!!.plugin, Runnable {
+                player!!.teleport(Location(
+                    toWorld,
+                    spawnBlockX + 0.5,
+                    spawnBlockY + 0.5,
+                    spawnBlockZ + 0.5
+                ))
+            }, 1L)
         }
     }
 
