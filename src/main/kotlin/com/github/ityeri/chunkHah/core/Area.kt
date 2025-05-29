@@ -207,18 +207,29 @@ class Area(
         else if (fromWorld.environment == World.Environment.NETHER &&
                  toWorld.environment == World.Environment.NORMAL) {
 
-            val spawnBlockX = Random.nextInt(minX, maxX)
-            val spawnBlockZ = Random.nextInt(minZ, maxZ)
-            val spawnBlockY = toWorld.getHighestBlockAt(spawnBlockX, spawnBlockZ).y + 1
+            while (true) {
 
-            Bukkit.getScheduler().runTaskLater(areaManager!!.plugin, Runnable {
-                player!!.teleport(Location(
-                    toWorld,
-                    spawnBlockX + 0.5,
-                    spawnBlockY + 0.5,
-                    spawnBlockZ + 0.5
-                ))
-            }, 1L)
+                val spawnBlockX = Random.nextInt(minX, maxX)
+                val spawnBlockZ = Random.nextInt(minZ, maxZ)
+
+                val groundBlock = toWorld.getHighestBlockAt(spawnBlockX, spawnBlockZ)
+                val spawnBlockY = groundBlock.y + 1
+
+                if (groundBlock.isSolid) {
+                    Bukkit.getScheduler().runTaskLater(areaManager!!.plugin, Runnable {
+                        player!!.teleport(Location(
+                            toWorld,
+                            spawnBlockX + 0.5,
+                            spawnBlockY + 0.5,
+                            spawnBlockZ + 0.5
+                        ))
+                    }, 1L)
+
+                    break
+                }
+
+            }
+
         }
     }
 
