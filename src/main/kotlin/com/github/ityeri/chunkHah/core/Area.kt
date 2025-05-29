@@ -162,61 +162,48 @@ class Area(
         if (fromWorld.environment == World.Environment.NORMAL &&
             toWorld.environment == World.Environment.NETHER) {
 
-            val xCheckingOrder = (minX until maxX).shuffled()
-            val yCheckingOrder = (1 until 120).shuffled()
-            val zCheckingOrder = (minZ until maxZ).shuffled()
+            while (true) {
+                val currentCheckingBlockX = Random.nextInt(minX, maxX)
+                val currentCheckingBlockY = Random.nextInt(1, 120)
+                val currentCheckingBlockZ = Random.nextInt(minZ, maxZ)
 
-            var isEmptySpaceFound = false
+                val groundBlock = toWorld.getBlockAt(
+                    currentCheckingBlockX,
+                    currentCheckingBlockY - 1,
+                    currentCheckingBlockZ
+                )
 
-            var spawnBlockX = Int.MIN_VALUE
-            var spawnBlockY = Int.MIN_VALUE
-            var spawnBlockZ = Int.MIN_VALUE
+                val lowerBlock = toWorld.getBlockAt(
+                    currentCheckingBlockX,
+                    currentCheckingBlockY,
+                    currentCheckingBlockZ
+                )
 
-            findEmptySpace@ for (currentCheckingY in yCheckingOrder) {
-                for (currentCheckingZ in zCheckingOrder) {
-                    for (currentCheckingX in xCheckingOrder) {
-                        val groundBlock = player!!.world.getBlockAt(
-                            currentCheckingX,
-                            currentCheckingY -1,
-                            currentCheckingZ)
+                val upperBlock = toWorld.getBlockAt(
+                    currentCheckingBlockX,
+                    currentCheckingBlockY + 1,
+                    currentCheckingBlockZ
+                )
 
-                        val lowerPlayerCollisionBlock = player!!.world.getBlockAt(
-                            currentCheckingX,
-                            currentCheckingY,
-                            currentCheckingZ)
+                if (groundBlock.isSolid &&
+                    lowerBlock.isEmpty &&
+                    upperBlock.isEmpty) {
 
-                        val upperPlayerCollisionBlock = player!!.world.getBlockAt(
-                            currentCheckingX,
-                            currentCheckingY + 1,
-                            currentCheckingZ)
+                    player!!.teleport(
+                        Location(
+                            toWorld,
+                            currentCheckingBlockX + 0.5,
+                            currentCheckingBlockY + 0.5,
+                            currentCheckingBlockZ + 0.5
+                        )
+                    )
 
-                        if (groundBlock.isSolid &&
-                            lowerPlayerCollisionBlock.isEmpty &&
-                            upperPlayerCollisionBlock.isEmpty) {
-
-                            spawnBlockX = currentCheckingX
-                            spawnBlockY = currentCheckingY
-                            spawnBlockZ = currentCheckingZ
-
-                            isEmptySpaceFound = true
-
-                            break@findEmptySpace
-
-                        }
-                    }
+                    break
                 }
             }
 
             // TODO isEmptySpacdFound 가 false 일 경우에 대한 처리 추가
 
-            player!!.teleport(
-                Location(
-                    toWorld,
-                    spawnBlockX + 0.5,
-                    spawnBlockY + 0.5,
-                    spawnBlockZ + 0.5
-                )
-            )
 
         }
 
