@@ -126,7 +126,7 @@ class Area(
 
         if (isChecked) {
             player!!.teleport(newLocation)
-            player!!.velocity = newVelocity
+            newVelocity.copy(player!!.velocity)
         }
     }
 
