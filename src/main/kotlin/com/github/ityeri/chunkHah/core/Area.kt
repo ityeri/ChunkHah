@@ -210,13 +210,29 @@ class Area(
 
             player!!.teleport(
                 Location(
-                    player!!.world,
+                    toWorld,
                     spawnBlockX + 0.5,
                     spawnBlockY + 0.5,
                     spawnBlockZ + 0.5
                 )
             )
 
+        }
+
+        // 네더 -> 오버
+        else if (fromWorld.environment == World.Environment.NETHER &&
+                 toWorld.environment == World.Environment.NORMAL) {
+
+            val spawnBlockX = Random.nextInt(minX, maxX)
+            val spawnBlockZ = Random.nextInt(minZ, maxZ)
+            val spawnBlockY = toWorld.getHighestBlockAt(spawnBlockX, spawnBlockZ).y + 1
+
+            player!!.teleport(Location(
+                toWorld,
+                spawnBlockX + 0.5,
+                spawnBlockY + 0.5,
+                spawnBlockZ + 0.5
+            ))
         }
     }
 
