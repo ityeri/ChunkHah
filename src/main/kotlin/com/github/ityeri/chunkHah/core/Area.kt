@@ -162,24 +162,24 @@ class Area(
             toWorld.environment == World.Environment.NETHER) {
 
             while (true) {
-                val spawnX = Random.nextInt(minX, maxX)
-                val spawnY = Random.nextInt(1, 120)
-                val spawnZ = Random.nextInt(minZ, maxZ)
+                val spawnBlockX = Random.nextInt(minX, maxX)
+                val spawnBlockY = Random.nextInt(1, 120)
+                val spawnBlockZ = Random.nextInt(minZ, maxZ)
 
                 val groundBlock = toWorld.getBlockAt(
-                    spawnX,
-                    spawnY - 1,
-                    spawnZ
+                    spawnBlockX,
+                    spawnBlockY - 1,
+                    spawnBlockZ
                 )
                 val lowerBlock = toWorld.getBlockAt(
-                    spawnX,
-                    spawnY,
-                    spawnZ
+                    spawnBlockX,
+                    spawnBlockY,
+                    spawnBlockZ
                 )
                 val upperBlock = toWorld.getBlockAt(
-                    spawnX,
-                    spawnY + 1,
-                    spawnZ
+                    spawnBlockX,
+                    spawnBlockY + 1,
+                    spawnBlockZ
                 )
 
                 if (groundBlock.isSolid &&
@@ -189,9 +189,9 @@ class Area(
                     player!!.teleport(
                         Location(
                             toWorld,
-                            spawnX + 0.5,
-                            spawnY + 0.5,
-                            spawnZ + 0.5
+                            spawnBlockX + 0.5,
+                            spawnBlockY + 0.5,
+                            spawnBlockZ + 0.5
                         )
                     )
 
