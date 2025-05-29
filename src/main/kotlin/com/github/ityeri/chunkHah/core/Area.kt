@@ -2,7 +2,6 @@
 
 package com.github.ityeri.chunkHah.core
 
-import net.kyori.adventure.text.Component
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -163,24 +162,24 @@ class Area(
             toWorld.environment == World.Environment.NETHER) {
 
             while (true) {
-                val currentCheckingBlockX = Random.nextInt(minX, maxX)
-                val currentCheckingBlockY = Random.nextInt(1, 120)
-                val currentCheckingBlockZ = Random.nextInt(minZ, maxZ)
+                val spawnX = Random.nextInt(minX, maxX)
+                val spawnY = Random.nextInt(1, 120)
+                val spawnZ = Random.nextInt(minZ, maxZ)
 
                 val groundBlock = toWorld.getBlockAt(
-                    currentCheckingBlockX,
-                    currentCheckingBlockY - 1,
-                    currentCheckingBlockZ
+                    spawnX,
+                    spawnY - 1,
+                    spawnZ
                 )
                 val lowerBlock = toWorld.getBlockAt(
-                    currentCheckingBlockX,
-                    currentCheckingBlockY,
-                    currentCheckingBlockZ
+                    spawnX,
+                    spawnY,
+                    spawnZ
                 )
                 val upperBlock = toWorld.getBlockAt(
-                    currentCheckingBlockX,
-                    currentCheckingBlockY + 1,
-                    currentCheckingBlockZ
+                    spawnX,
+                    spawnY + 1,
+                    spawnZ
                 )
 
                 if (groundBlock.isSolid &&
@@ -190,9 +189,9 @@ class Area(
                     player!!.teleport(
                         Location(
                             toWorld,
-                            currentCheckingBlockX + 0.5,
-                            currentCheckingBlockY + 0.5,
-                            currentCheckingBlockZ + 0.5
+                            spawnX + 0.5,
+                            spawnY + 0.5,
+                            spawnZ + 0.5
                         )
                     )
 
@@ -201,7 +200,6 @@ class Area(
             }
 
             // TODO 빈공간이 없어서 무한 루프에 갇힐경우 로직 추가
-
 
         }
 
