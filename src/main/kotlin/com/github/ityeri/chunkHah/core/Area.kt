@@ -104,7 +104,7 @@ class Area(
         // x- x+ z- z+
 
         val newLocation = player!!.location.clone()
-        val newVelocity = player!!.velocity
+        val newVelocity = player!!.velocity.clone()
 
         var isChecked = false
 
@@ -136,7 +136,7 @@ class Area(
 
         if (isChecked) {
             player!!.teleport(newLocation)
-            newVelocity.copy(player!!.velocity)
+            player!!.velocity = newVelocity
         }
     }
 
