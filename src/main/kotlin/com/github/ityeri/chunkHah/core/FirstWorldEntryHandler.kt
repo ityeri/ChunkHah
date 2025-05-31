@@ -1,10 +1,7 @@
 package com.github.ityeri.chunkHah.core
 
 import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.TreeType
-import org.bukkit.World
+import org.bukkit.*
 
 class FirstWorldEntryHandler(val area: Area) {
 
@@ -60,6 +57,8 @@ class FirstWorldEntryHandler(val area: Area) {
         val treeX = area.minX + area.width / 2
         val treeZ = area.minX + area.depth / 2
         val treeY = area.player!!.world.getHighestBlockYAt(treeX, treeZ) + 1
+
+        area.player!!.world.getHighestBlockAt(treeX, treeZ).type = Material.DIRT
 
         area.player!!.world.generateTree(
             Location(
