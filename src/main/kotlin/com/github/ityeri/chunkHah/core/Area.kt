@@ -16,7 +16,10 @@ import kotlin.random.Random
 
 class Area(
     val playerUUID: UUID, var areaManager: AreaManager?,
-    var x: Int, var z: Int, var isBind: Boolean = true
+    var x: Int, var z: Int, var isBind: Boolean = true,
+    var isEnteredOver: Boolean = false,
+    var isEnteredNether: Boolean = false,
+    var isEnteredEnd: Boolean = false,
 ) : Listener {
 
     constructor(
