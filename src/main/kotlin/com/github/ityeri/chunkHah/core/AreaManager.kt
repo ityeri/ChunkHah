@@ -54,6 +54,7 @@ class AreaManager(
     fun getAllArea(): List<Area> = playerAreaMap.values.toList()
 
     fun removeAllArea() {
+        playerAreaMap.values.forEach { it.disable() }
         playerAreaMap.clear()
     }
 
