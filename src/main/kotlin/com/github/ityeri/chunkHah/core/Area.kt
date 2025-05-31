@@ -63,6 +63,7 @@ class Area(
     val worldChangeHandler = WorldChangeHandler(this)
     val playerRespawnHandler = PlayerRespawnHandler(this)
     val playerInteractionHandler = PlayerInteractionHandler(this)
+    val firstWorldEntryHandler = FirstWorldEntryHandler(this)
 
     fun whenPlayerOnline(block: (Player) -> Unit) {
         if (isPlayerOnline) {
@@ -97,10 +98,13 @@ class Area(
 
 
     fun update() {
-        if (!isBind) { return }
-        if (isPlayerOnline) {
-            playerPositionCheck()
+        if (!isEnabled) {
+            throw IllegalStateException("영역이 활성화 된 후에 update 가 호출되어야 합니다")
         }
+
+        if (isPlayerOnline && isBind) { playerPositionCheck() }
+
+        if (isPlayerOnline) { firstWorldEntryHandler.update() }
     }
 
     fun playerPositionCheck() {
