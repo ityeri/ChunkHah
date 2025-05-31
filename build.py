@@ -41,7 +41,10 @@ while True:
     print("메타데이터 파일 제거 완료")
 
     print("빌드중...")
-    subprocess.run(["./gradlew", "jar"])
+    if os.name == "nt":
+        subprocess.run([".\gradlew.bat", "jar"])
+    else:
+        subprocess.run(["./gradlew", "jar"])
 
     print("\nSSH 접속...")
     client = paramiko.SSHClient()
