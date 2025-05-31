@@ -9,9 +9,21 @@ class FirstWorldEntryHandler(val area: Area) {
         val environment = area.player!!.world.environment
 
         when (environment) {
-            World.Environment.NORMAL -> onFirstEnterOver()
-            World.Environment.NETHER -> onFirstEnterNether()
-            World.Environment.THE_END -> onFirstEnterEnd()
+            World.Environment.NORMAL -> if (!area.isEnteredOver) {
+                area.isEnteredOver = true
+                onFirstEnterOver()
+            }
+
+            World.Environment.NETHER -> if (!area.isEnteredNether) {
+                area.isEnteredNether = true
+                onFirstEnterNether()
+            }
+
+            World.Environment.THE_END -> if (!area.isEnteredEnd) {
+                area.isEnteredEnd = true
+                onFirstEnterEnd()
+            }
+
             else -> Bukkit.getLogger().warning(
                 "\"${area.player!!.world.name}\" 월드는 지원되지 않는 유형의 월드입니다")
         }
