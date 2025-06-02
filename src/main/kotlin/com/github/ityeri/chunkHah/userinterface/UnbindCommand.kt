@@ -8,11 +8,30 @@ import co.aikar.commands.annotation.Default
 import com.github.ityeri.chunkHah.core.AreaManager
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 
 @CommandAlias("unbind")
 @CommandPermission("op")
 class UnbindCommand(val areaManager: AreaManager) : BaseCommand() {
+
+    @Default
+    @CommandCompletion("@nothing")
+    fun onCommand(sender: CommandSender) {
+
+        if (sender !is Player) {
+            sender.sendMessage("이 명령어는 플레이어만 사용 가능합니다")
+            return
+        }
+
+        val area = areaManager.getArea(sender) ?: run {
+            sender.sendMessage("해당 플레이어는 아직 영역을 할당받지 않았습니다. 먼저 /setarea 를 해주세요")
+            return
+        }
+
+        area.isBind = false
+        sender.sendMessage("${sender.name} 플레이어의 영역 제약을 활성화 했습니다")
+    }
 
     @Default
     @CommandCompletion("@players @nothing")
