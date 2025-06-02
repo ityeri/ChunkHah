@@ -69,6 +69,8 @@ class AreaManager(
     }
 
     fun getArea(player: OfflinePlayer): Area? = playerAreaMap[player.uniqueId]
+    fun getArea(x: Int, z: Int): Area? =
+        playerAreaMap.values.find { it.x == x && it.z == z }
 
 
 
