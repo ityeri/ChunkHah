@@ -27,4 +27,17 @@ class UnbindCommand(val areaManager: AreaManager) : BaseCommand() {
         area.isBind = false
         sender.sendMessage("$targetPlayerName 플레이어의 영역 제약을 비활성화 했습니다")
     }
+
+    @Default
+    @CommandCompletion("@players 0 0")
+    fun onCommand(sender: CommandSender, x: Int, z: Int) {
+        val area = areaManager.getArea(x, z) ?:
+        run {
+            sender.sendMessage("해당 플레이어는 아직 영역을 할당받지 않았습니다. 먼저 /setarea 를 해주세요")
+            return
+        }
+
+        area.isBind = false
+        sender.sendMessage("[$x, $z] 위치의 영역 제약을 비활성화 했습니다")
+    }
 }
