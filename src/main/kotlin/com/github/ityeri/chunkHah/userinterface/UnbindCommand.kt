@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender
 class UnbindCommand(val areaManager: AreaManager) : BaseCommand() {
 
     @Default
-    @CommandCompletion("@players")
+    @CommandCompletion("@players @nothing")
     fun onCommand(sender: CommandSender, targetPlayerName: String) {
         val area = areaManager.getArea(
             Bukkit.getOfflinePlayer(targetPlayerName)
@@ -29,7 +29,7 @@ class UnbindCommand(val areaManager: AreaManager) : BaseCommand() {
     }
 
     @Default
-    @CommandCompletion("@players 0 0")
+    @CommandCompletion("0 0 @nothing")
     fun onCommand(sender: CommandSender, x: Int, z: Int) {
         val area = areaManager.getArea(x, z) ?:
         run {
