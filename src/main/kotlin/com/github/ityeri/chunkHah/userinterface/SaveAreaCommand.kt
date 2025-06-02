@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender
 class SaveAreaCommand(val areaManager: AreaManager) : BaseCommand() {
 
     @Default
+    @CommandCompletion("@nothing")
     fun onCommand(sender: CommandSender) {
         areaManager.areaLoader.save()
         sender.sendMessage("모든 영역 데이터를 저장했습니다")

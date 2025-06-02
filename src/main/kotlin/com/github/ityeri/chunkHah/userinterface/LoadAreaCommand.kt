@@ -2,6 +2,7 @@ package com.github.ityeri.chunkHah.userinterface
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import com.github.ityeri.chunkHah.core.AreaManager
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException
 class LoadAreaCommand(val areaManager: AreaManager) : BaseCommand() {
 
     @Default
+    @CommandCompletion("@nothing")
     fun onCommand(sender: CommandSender) {
         try {
             areaManager.areaLoader.load()

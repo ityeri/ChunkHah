@@ -43,7 +43,7 @@ class SetAreaCommand(val areaManager: AreaManager) : BaseCommand() {
     }
 
     @Default
-    @CommandCompletion("@players")
+    @CommandCompletion("@players @nothing")
     fun onCommand(sender: CommandSender, targetPlayerName: String) {
         if (sender !is Player) {
             sender.sendMessage("이 명령어는 플레이어만 사용 가능합니다")
