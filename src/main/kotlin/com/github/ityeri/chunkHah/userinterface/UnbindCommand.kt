@@ -30,7 +30,7 @@ class UnbindCommand(val areaManager: AreaManager) : BaseCommand() {
         }
 
         area.isBind = false
-        sender.sendMessage("${sender.name} 플레이어의 영역 제약을 활성화 했습니다")
+        sender.sendMessage("${sender.name} 플레이어의 영역 제약을 비활성화 했습니다")
     }
 
     @Default
