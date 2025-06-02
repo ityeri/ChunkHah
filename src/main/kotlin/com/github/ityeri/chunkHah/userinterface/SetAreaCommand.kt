@@ -16,6 +16,32 @@ import org.bukkit.entity.Player
 @CommandAlias("setarea")
 @CommandPermission("op")
 class SetAreaCommand(val areaManager: AreaManager) : BaseCommand() {
+
+    @Default
+    @CommandCompletion("@nothing")
+    fun onCommand(sender: CommandSender) {
+        if (sender !is Player) {
+            sender.sendMessage("이 명령어는 플레이어만 사용 가능합니다")
+            return
+        }
+
+        val areaX = (sender.x / areaManager.areaWidth).toInt()
+        val areaZ = (sender.z / areaManager.areaDepth).toInt()
+
+        var area = areaManager.getArea(sender)
+
+        area ?: run {
+            area = Area(sender, areaManager, 0, 0)
+            areaManager.addArea(area)
+        }
+        area!!
+
+        area.x = areaX
+        area.z = areaZ
+
+        sender.sendMessage("플레이어 \"${sender.name}\" 의 영역을 [$areaX, $areaZ] 로 배치했습니다")
+    }
+
     @Default
     @CommandCompletion("@players")
     fun onCommand(sender: CommandSender, targetPlayerName: String) {
@@ -36,12 +62,36 @@ class SetAreaCommand(val areaManager: AreaManager) : BaseCommand() {
 
         area ?: run {
             area = Area(targetPlayer, areaManager, 0, 0)
-            areaManager.addArea(area!!)
+            areaManager.addArea(area)
         }
+        area!!
 
-        area!!.x = areaX
-        area!!.z = areaZ
+        area.x = areaX
+        area.z = areaZ
 
         sender.sendMessage("플레이어 \"$targetPlayerName\" 의 영역을 [$areaX, $areaZ] 로 배치했습니다")
+    }
+
+    @Default
+    @CommandCompletion("@players 0 0 @nothing")
+    fun onCommand(sender: CommandSender, targetPlayerName: String, x: Int, z: Int) {
+
+        val targetPlayer = Bukkit.getPlayer(targetPlayerName) ?: run {
+            sender.sendMessage("해당 플레이어는 존재하지 않습니다")
+            return
+        }
+
+        var area = areaManager.getArea(targetPlayer)
+
+        area ?: run {
+            area = Area(targetPlayer, areaManager, 0, 0)
+            areaManager.addArea(area)
+        }
+        area!!
+
+        area.x = x
+        area.z = z
+
+        sender.sendMessage("플레이어 \"$targetPlayerName\" 의 영역을 [$x, $z] 로 배치했습니다")
     }
 }
