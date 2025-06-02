@@ -33,7 +33,7 @@ class UnbindCommand(val areaManager: AreaManager) : BaseCommand() {
     fun onCommand(sender: CommandSender, x: Int, z: Int) {
         val area = areaManager.getArea(x, z) ?:
         run {
-            sender.sendMessage("해당 플레이어는 아직 영역을 할당받지 않았습니다. 먼저 /setarea 를 해주세요")
+            sender.sendMessage("해당 위치에 할당된 영역이 없습니다")
             return
         }
 
