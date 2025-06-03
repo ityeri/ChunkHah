@@ -12,6 +12,10 @@ import kotlin.random.Random
 
 class WorldChangeHandler(val area: Area) : Listener {
 
+    fun onOverToNether() {
+        TODO()
+    }
+
     @EventHandler
     fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
 
@@ -23,47 +27,7 @@ class WorldChangeHandler(val area: Area) : Listener {
         // 오버 -> 네더
         if (fromWorld.environment == World.Environment.NORMAL &&
             toWorld.environment == World.Environment.NETHER) {
-
-            while (true) {
-                val spawnBlockX = Random.nextInt(area.minX, area.maxX)
-                val spawnBlockY = Random.nextInt(1, 120)
-                val spawnBlockZ = Random.nextInt(area.minZ, area.maxZ)
-
-                val groundBlock = toWorld.getBlockAt(
-                    spawnBlockX,
-                    spawnBlockY - 1,
-                    spawnBlockZ
-                )
-                val lowerBlock = toWorld.getBlockAt(
-                    spawnBlockX,
-                    spawnBlockY,
-                    spawnBlockZ
-                )
-                val upperBlock = toWorld.getBlockAt(
-                    spawnBlockX,
-                    spawnBlockY + 1,
-                    spawnBlockZ
-                )
-
-                if (groundBlock.isSolid &&
-                    lowerBlock.isEmpty &&
-                    upperBlock.isEmpty) {
-
-                    area.player!!.teleport(
-                        Location(
-                            toWorld,
-                            spawnBlockX + 0.5,
-                            spawnBlockY + 0.5,
-                            spawnBlockZ + 0.5
-                        )
-                    )
-
-                    break
-                }
-            }
-
-            // TODO 빈공간이 없어서 무한 루프에 갇힐경우 로직 추가
-
+            onOverToNether()
         }
 
         // 네더 -> 오버
