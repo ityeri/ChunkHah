@@ -69,10 +69,8 @@ class FirstWorldEntryHandler(val area: Area) {
     }
 
     fun onFirstEnterNether() {
-        Bukkit.getServer().sendMessage(Component.text("nether"))
     }
 
     fun onFirstEnterEnd() {
-        Bukkit.getServer().sendMessage(Component.text("end"))
     }
 }
