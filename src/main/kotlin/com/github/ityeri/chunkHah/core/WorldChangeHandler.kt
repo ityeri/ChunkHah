@@ -60,6 +60,7 @@ class WorldChangeHandler(val area: Area) : Listener {
             }
         }
 
+
         while (true) {
 
             val spawnBlockX = Random.nextInt(area.minX, area.maxX)
@@ -96,6 +97,40 @@ class WorldChangeHandler(val area: Area) : Listener {
     }
 
     fun onNetherToOver() {
+
+        val xCheckingOrder = (area.minX until area.maxX).shuffled()
+        val yCheckingOrder = (-64 until 320).shuffled()
+        val zCheckingOrder = (area.minZ until area.maxZ).shuffled()
+
+        for (spawnBlockZ in zCheckingOrder) {
+            for (spawnBlockY in yCheckingOrder) {
+                for (spawnBlockX in xCheckingOrder) {
+
+                    val lowerBlock = area.player!!.world.getBlockAt(spawnBlockX, spawnBlockY, spawnBlockZ)
+                    val upperBlock = area.player!!.world.getBlockAt(spawnBlockX, spawnBlockY + 1, spawnBlockZ)
+
+                    if (
+                        lowerBlock.type == Material.NETHER_PORTAL &&
+                        upperBlock.type == Material.NETHER_PORTAL
+                    ) {
+
+                        runTaskNextTick {
+                            area.player!!.teleport(
+                                Location(
+                                    area.player!!.world,
+                                    spawnBlockX + 0.5,
+                                    spawnBlockY.toDouble(),
+                                    spawnBlockZ + 0.5,
+                                )
+                            )
+                        }
+                        return
+                    }
+
+                }
+            }
+        }
+
 
         while (true) {
 
