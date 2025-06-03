@@ -23,6 +23,8 @@ class WorldChangeHandler(val area: Area) : Listener {
         )
     }
 
+
+
     fun onOverToNether() {
 
         val xCheckingOrder = (area.minX until area.maxX).shuffled()
@@ -93,6 +95,36 @@ class WorldChangeHandler(val area: Area) : Listener {
 
     }
 
+    fun onNetherToOver() {
+
+        while (true) {
+
+            val spawnBlockX = Random.nextInt(area.minX, area.maxX)
+            val spawnBlockZ = Random.nextInt(area.minZ, area.maxZ)
+
+            val groundBlock = area.player!!.world.getHighestBlockAt(spawnBlockX, spawnBlockZ)
+            val spawnBlockY = groundBlock.y + 1
+
+            if (groundBlock.isSolid) {
+                runTaskNextTick {
+                    area.player!!.teleport(
+                        Location(
+                            area.player!!.world,
+                            spawnBlockX + 0.5,
+                            spawnBlockY + 0.5,
+                            spawnBlockZ + 0.5
+                        )
+                    )
+                }
+
+                break
+            }
+        }
+
+    }
+
+
+
     @EventHandler
     fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
 
@@ -110,31 +142,7 @@ class WorldChangeHandler(val area: Area) : Listener {
         // 네더 -> 오버
         else if (fromWorld.environment == World.Environment.NETHER &&
             toWorld.environment == World.Environment.NORMAL) {
-
-            while (true) {
-
-                val spawnBlockX = Random.nextInt(area.minX, area.maxX)
-                val spawnBlockZ = Random.nextInt(area.minZ, area.maxZ)
-
-                val groundBlock = toWorld.getHighestBlockAt(spawnBlockX, spawnBlockZ)
-                val spawnBlockY = groundBlock.y + 1
-
-                if (groundBlock.isSolid) {
-                    runTaskNextTick {
-                        area.player!!.teleport(
-                            Location(
-                                toWorld,
-                                spawnBlockX + 0.5,
-                                spawnBlockY + 0.5,
-                                spawnBlockZ + 0.5
-                            )
-                        )
-                    }
-
-                    break
-                }
-
-            }
+            onNetherToOver()
 
         }
     }
