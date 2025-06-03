@@ -178,7 +178,6 @@ class WorldChangeHandler(val area: Area) : Listener {
         else if (fromWorld.environment == World.Environment.NETHER &&
             toWorld.environment == World.Environment.NORMAL) {
             onNetherToOver()
-
         }
     }
 
