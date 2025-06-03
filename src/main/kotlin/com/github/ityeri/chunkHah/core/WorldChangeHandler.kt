@@ -96,11 +96,7 @@ class WorldChangeHandler(val area: Area) : Listener {
     @EventHandler
     fun onPlayerChangeWorld(event: PlayerChangedWorldEvent) {
 
-        Bukkit.getLogger().info("체크 전")
-
         if (event.player != area.player) { return }
-
-        Bukkit.getLogger().info("체크 후")
 
         val fromWorld = event.from
         val toWorld = area.player!!.world
