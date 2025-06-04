@@ -2,6 +2,13 @@ package com.github.ityeri.chunkHah.userinterface
 
 import co.aikar.commands.PaperCommandManager
 import com.github.ityeri.chunkHah.core.AreaManager
+import com.github.ityeri.chunkHah.userinterface.command.AreaListCommand
+import com.github.ityeri.chunkHah.userinterface.command.BindCommand
+import com.github.ityeri.chunkHah.userinterface.command.LoadAreaCommand
+import com.github.ityeri.chunkHah.userinterface.command.RunCommand
+import com.github.ityeri.chunkHah.userinterface.command.SaveAreaCommand
+import com.github.ityeri.chunkHah.userinterface.command.SetAreaCommand
+import com.github.ityeri.chunkHah.userinterface.command.UnbindCommand
 
 class UserInterface(val areaManager: AreaManager) {
     fun enable() {
