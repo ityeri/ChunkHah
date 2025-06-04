@@ -68,6 +68,10 @@ class AreaManager(
         playerAreaMap[area.playerUUID] = area
     }
 
+    fun rmArea(player: OfflinePlayer) {
+        playerAreaMap.remove(player.uniqueId)
+    }
+
     fun getArea(player: OfflinePlayer): Area? = playerAreaMap[player.uniqueId]
     fun getArea(x: Int, z: Int): Area? =
         playerAreaMap.values.find { it.x == x && it.z == z }
