@@ -77,6 +77,18 @@ class AreaManager(
 
         return area
     }
+    fun rmArea(x: Int, y: Int): Area? {
+        val area = getArea(x, y)
+        area ?: run { return null }
+
+        playerAreaMap.remove(area.playerUUID)
+
+        if (area.isEnabled) {
+            area.disable()
+        }
+
+        return area
+    }
 
     fun getArea(player: OfflinePlayer): Area? = playerAreaMap[player.uniqueId]
     fun getArea(x: Int, z: Int): Area? =
