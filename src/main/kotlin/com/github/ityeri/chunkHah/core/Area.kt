@@ -55,10 +55,9 @@ class Area(
             return Bukkit.getPlayer(playerUUID) != null
         }
 
-    val player: Player?
-        get() {
-            return Bukkit.getPlayer(playerUUID)
-        }
+    val player: Player? = Bukkit.getPlayer(playerUUID)
+    val offlinePlayer: OfflinePlayer = Bukkit.getOfflinePlayer(playerUUID)
+
 
     val worldChangeHandler = WorldChangeHandler(this)
     val playerRespawnHandler = PlayerRespawnHandler(this)
